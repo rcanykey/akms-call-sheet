@@ -503,17 +503,17 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> Got it, so… what would you say is the biggest challenge you have right now, or at least, what's not working to the level you feel like it should?</div>
-      <textarea class="answer-field p-field" id="p_bigchallenge" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <textarea class="answer-field p-field" id="p_bigchallenge" placeholder="Answer..." oninput="autoPopulateMainIssue()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-issue">ISSUE</span> And aside from that, is there any other challenge or roadblock that's in the way right now?</div>
-      <textarea class="answer-field issue-field" id="issue_aside" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> And aside from that, is there any other challenge or roadblock that's in the way right now?</div>
+      <textarea class="answer-field issue-field" id="issue_aside" placeholder="Answer..." oninput="autoPopulateMainIssue()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-issue">ISSUE</span> OK, so your main issue is:</div>
-      <textarea class="answer-field issue-field" id="issue_main" placeholder="State their main issue..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-issue" style="background:#1a5276; color:#fff; font-size:11px; padding:2px 7px;">MAIN ISSUE</span> OK, so your main issue is:</div>
+      <textarea class="answer-field issue-field" id="issue_main" placeholder="Auto-populates from the two issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
     </div>
 
     <div class="q-row">
@@ -533,11 +533,11 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Got it. Now, what about the last 12 months?</div>
-      <textarea class="answer-field p-field" id="p_12months" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <textarea class="answer-field p-field" id="p_12months" placeholder="Answer..." oninput="autoPopulate12Months()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-p">P</span> Ok… so about <span class="inline-blank"></span> in the last 12 months.</div>
+      <div class="q-label"><span class="tag tag-p">P</span> Ok… so about <strong><span id="auto_12months" style="color:#c0392b; font-style:italic;">___</span></strong> in the last 12 months.</div>
     </div>
 
     <div class="q-row">
@@ -546,8 +546,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> And out of those, how many can you add embellishments to them?</div>
-      <textarea class="answer-field" id="q_embellish" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> And out of those, how many can you add embellishments to them?</div>
+      <textarea class="answer-field p-field" id="q_embellish" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
@@ -555,7 +555,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
       <textarea class="answer-field" id="q_didyouthink" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
-    <div class="script-line">Ok… so over the last 12 months you figured out _______ songs. Is that right? <em>Yikes, ok. We need to fix this pretty soon then.</em></div>
+    <div class="script-line">Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right? <em>Yikes, ok. We need to fix this pretty soon then.</em></div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">☐ Pain Amplification Questions</div>
 
@@ -623,18 +623,18 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="script-line">"Ok got it… so… just to make sure I understand, you're essentially saying that the issue is..."</div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-issue">ISSUE</span> The issue is:</div>
-      <textarea class="answer-field issue-field" id="issue_recap" placeholder="State the issue..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-issue">ISSUE</span> The issue is: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from issues above)</span></div>
+      <textarea class="answer-field issue-field" id="issue_recap" placeholder="Auto-populates from issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-goal">GOAL</span> ...which is keeping you from:</div>
-      <textarea class="answer-field goal-field" id="goal_keepingfrom" placeholder="State what it's keeping them from..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-goal">GOAL</span> ...which is keeping you from: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all N fields)</span></div>
+      <textarea class="answer-field goal-field" id="goal_keepingfrom" placeholder="Auto-populates from all N answers above..." oninput="updateSummary()" rows="3" style="background:#f5eef8;"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-emotion">EMOTION #1</span> <span class="tag tag-emotion">EMOTION #2</span> ...which I think you said was causing:</div>
-      <textarea class="answer-field emotion-field" id="emotion_causing" placeholder="Emotion / stress causing..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-emotion">EMOTION #1</span> <span class="tag tag-emotion">EMOTION #2</span> ...which I think you said was causing: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from emotions)</span></div>
+      <textarea class="answer-field emotion-field" id="emotion_causing" placeholder="Auto-populates from Emotion #1 and #2 above..." oninput="updateSummary()" rows="3" style="background:#fef9e7;"></textarea>
     </div>
 
     <div class="q-row">
@@ -723,18 +723,18 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="note-box">NOTE: Give a good 30–60 second summary of everything they've said. Make them feel truly heard and understood. USE THE RECAP SUMMARY BELOW ↓</div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-recap">RECAP</span> <span class="tag tag-p">P</span> You're feeling…</div>
-      <textarea class="answer-field p-field" id="recap_feeling" placeholder="Remind them of their PAIN..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-recap">RECAP</span> <span class="tag tag-p">P</span> You're feeling… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all P answers)</span></div>
+      <textarea class="answer-field p-field" id="recap_feeling" placeholder="Auto-populates from all Pain answers..." oninput="updateSummary()" rows="4" style="background:#fff5f5;"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-t">T</span> You've tried…</div>
-      <textarea class="answer-field t-field" id="recap_tried" placeholder="Remind them of what HASN'T worked..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-t">T</span> You've tried… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all T answers)</span></div>
+      <textarea class="answer-field t-field" id="recap_tried" placeholder="Auto-populates from all Tried answers..." oninput="updateSummary()" rows="4" style="background:#fff9f0;"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-n">N</span> You need…</div>
-      <textarea class="answer-field n-field" id="recap_need" placeholder="Remind them of their GOAL and biggest wants..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><span class="tag tag-n">N</span> You need… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all N answers)</span></div>
+      <textarea class="answer-field n-field" id="recap_need" placeholder="Auto-populates from all Need answers..." oninput="updateSummary()" rows="4" style="background:#f0faf4;"></textarea>
     </div>
 
     <div class="script-line">"Is that about right?" — [WAIT FOR A YES]</div>
@@ -813,6 +813,18 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="summary-body">
 
+      <!-- INTRO -->
+      <div class="sum-section">
+        <div class="sum-section-header" style="background:#f0f4ff; color:#1a1a2e;">
+          <div class="sum-badge" style="background:#1a1a2e; font-size:9px;">INT</div>
+          INTRO — Opening Details
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Zooming in from?</span><span class="sum-item-answer" id="sum_q_zooming">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Been there long?</span><span class="sum-item-answer" id="sum_q_longtime">—</span></div>
+        </div>
+      </div>
+
       <!-- PAIN -->
       <div class="sum-section">
         <div class="sum-section-header sh-pain">
@@ -826,6 +838,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
           <div class="sum-item"><span class="sum-item-label">What happens when they try?</span><span class="sum-item-answer" id="sum_p_whathappens">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Biggest challenge?</span><span class="sum-item-answer" id="sum_p_bigchallenge">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Results last 12 months?</span><span class="sum-item-answer" id="sum_p_12months">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Embellishments they can add?</span><span class="sum-item-answer" id="sum_q_embellish">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #1 — Impact on them?</span><span class="sum-item-answer" id="sum_p_emotion1">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #2 — Tough spot emotionally?</span><span class="sum-item-answer" id="sum_p_emotion2">—</span></div>
           <div class="sum-item"><span class="sum-item-label">What's keeping them stuck?</span><span class="sum-item-answer" id="sum_p_keepingfrom">—</span></div>
@@ -911,14 +924,26 @@ h1, h2, h3, h4 { line-height: 1.3; }
         </div>
       </div>
 
+      <!-- NOW OR LATER -->
+      <div class="sum-section">
+        <div class="sum-section-header" style="background:#fff0f0; color:#c0392b;">
+          <div class="sum-badge" style="background:#c0392b; font-size:9px;">NOW</div>
+          NOW OR LATER — Their Commitment Answer
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Now or next year?</span><span class="sum-item-answer" id="sum_now_or_later">—</span></div>
+        </div>
+      </div>
+
       <!-- RECAP SCRIPT BOX -->
       <div class="recap-script-box">
-        <strong>🎯 YOUR PAGE 7 RECAP SCRIPT</strong>
-        "[NAME], I really appreciate you being so honest with me. So here's what I'm hearing…<br><br>
-        You're feeling… <span class="hint">(👆 PAIN — Emotion #1 &amp; #2 above)</span><br>
-        You've tried… <span class="hint">(👆 TRIED — background, programs, what went wrong)</span><br>
-        And what you really need is… <span class="hint">(👆 NEED — what shifted, why it's important, goal)</span><br><br>
-        Is that about right?"
+        <strong>🎯 YOUR PAGE 7 RECAP SCRIPT — READ THIS OUT LOUD</strong>
+        <div style="margin-bottom:10px; color:#fff;">"[<span id="sum_recap_name" style="color:#f7c948;">NAME</span>], I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'RE FEELING:</span><br><span id="sum_recap_feeling" style="color:#fff; font-style:italic;">— fill in Pain answers above —</span></div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'VE TRIED:</span><br><span id="sum_recap_tried" style="color:#fff; font-style:italic;">— fill in Tried answers above —</span></div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">WHAT YOU REALLY NEED IS:</span><br><span id="sum_recap_need" style="color:#fff; font-style:italic;">— fill in Need answers above —</span></div>
+        <div style="color:#aaa; font-size:12px; margin-top:10px; border-top:1px solid #333; padding-top:10px;">"Is that about right?" — [WAIT FOR A YES]</div>
+        <div style="margin-top:8px;"><span style="color:#f7c948; font-weight:700;">THEY SAID (Now or Later):</span> <span id="sum_recap_nowlater" style="color:#fff;">—</span></div>
       </div>
 
     </div>
@@ -938,60 +963,257 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
 // Map form field IDs to summary display IDs
 const fieldMap = [
-  ['p_howlong',       'sum_p_howlong'],
-  ['p_ear',           'sum_p_ear'],
-  ['p_allkeys',       'sum_p_allkeys'],
-  ['p_whathappens',   'sum_p_whathappens'],
-  ['p_bigchallenge',  'sum_p_bigchallenge'],
-  ['p_12months',      'sum_p_12months'],
-  ['p_emotion1',      'sum_p_emotion1'],
-  ['p_emotion2',      'sum_p_emotion2'],
-  ['p_keepingfrom',   'sum_p_keepingfrom'],
-  ['t_background',    'sum_t_background'],
-  ['t_attempted',     'sum_t_attempted'],
-  ['t_wrongwhat',     'sum_t_wrongwhat'],
-  ['t_howlong',       'sum_t_howlong'],
-  ['t_programs',      'sum_t_programs'],
-  ['t_whydidntwork',  'sum_t_whydidntwork'],
-  ['t_triedtofix',    'sum_t_triedtofix'],
-  ['n_shifted',       'sum_n_shifted'],
-  ['n_important',     'sum_n_important'],
-  ['goal_6to12',      'sum_goal_6to12'],
-  ['issue_main',      'sum_issue_main'],
-  ['issue_aside',     'sum_issue_aside'],
-  ['issue_recap',     'sum_issue_recap'],
-  ['goal_keepingfrom','sum_goal_keepingfrom'],
-  ['p_emotion1',      'sum_emotion1'],
-  ['p_emotion2',      'sum_emotion2'],
-  ['emotion_causing', 'sum_emotion_causing'],
+  ['q_zooming',        'sum_q_zooming'],
+  ['q_longtime',       'sum_q_longtime'],
+  ['p_howlong',        'sum_p_howlong'],
+  ['p_ear',            'sum_p_ear'],
+  ['p_allkeys',        'sum_p_allkeys'],
+  ['p_whathappens',    'sum_p_whathappens'],
+  ['p_bigchallenge',   'sum_p_bigchallenge'],
+  ['p_12months',       'sum_p_12months'],
+  ['q_embellish',      'sum_q_embellish'],
+  ['p_emotion1',       'sum_p_emotion1'],
+  ['p_emotion2',       'sum_p_emotion2'],
+  ['p_keepingfrom',    'sum_p_keepingfrom'],
+  ['t_background',     'sum_t_background'],
+  ['t_attempted',      'sum_t_attempted'],
+  ['t_wrongwhat',      'sum_t_wrongwhat'],
+  ['t_howlong',        'sum_t_howlong'],
+  ['t_programs',       'sum_t_programs'],
+  ['t_whydidntwork',   'sum_t_whydidntwork'],
+  ['t_triedtofix',     'sum_t_triedtofix'],
+  ['n_shifted',        'sum_n_shifted'],
+  ['n_important',      'sum_n_important'],
+  ['goal_6to12',       'sum_goal_6to12'],
+  ['issue_main',       'sum_issue_main'],
+  ['issue_aside',      'sum_issue_aside'],
+  ['issue_recap',      'sum_issue_recap'],
+  ['goal_keepingfrom', 'sum_goal_keepingfrom'],
+  ['p_emotion1',       'sum_emotion1'],
+  ['p_emotion2',       'sum_emotion2'],
+  ['emotion_causing',  'sum_emotion_causing'],
   ['spouse_supportive','sum_spouse_supportive'],
-  ['spouse_aware',    'sum_spouse_aware'],
+  ['spouse_aware',     'sum_spouse_aware'],
+  ['q_now_or_later',   'sum_now_or_later'],
 ];
 
+// ── Helper: get value or empty string
+function val(id) {
+  var el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// ── Helper: set text of summary span
+function setSum(id, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text || '—';
+  if (text) { el.classList.remove('empty-val'); }
+  else { el.classList.add('empty-val'); }
+}
+
+// ── AUTO-POPULATE: MAIN ISSUE (from p_bigchallenge + issue_aside)
+function autoPopulateMainIssue() {
+  var c1 = val('p_bigchallenge');
+  var c2 = val('issue_aside');
+  var combined = '';
+  if (c1 && c2) { combined = c1 + '\n─────────────\n' + c2; }
+  else if (c1)  { combined = c1; }
+  else if (c2)  { combined = c2; }
+  var mainIssueEl = document.getElementById('issue_main');
+  if (mainIssueEl) mainIssueEl.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: 12 MONTHS inline display
+function autoPopulate12Months() {
+  var v = val('p_12months');
+  var spans = ['auto_12months', 'auto_12months_2'];
+  spans.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = v || '___';
+  });
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: ISSUE RECAP (from issue_main)
+function autoPopulateIssueRecap() {
+  var v = val('issue_main');
+  var el = document.getElementById('issue_recap');
+  if (el && el.dataset.manualEdit !== 'true') el.value = v;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: GOAL keeping from (from all N fields)
+function autoPopulateGoal() {
+  var parts = [];
+  var nFields = ['n_shifted', 'n_important', 'goal_6to12'];
+  nFields.forEach(function(id) {
+    var v = val(id);
+    if (v) parts.push(v);
+  });
+  var combined = parts.join('\n─────────────\n');
+  var el = document.getElementById('goal_keepingfrom');
+  if (el && el.dataset.manualEdit !== 'true') el.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: EMOTION causing (from emotion1 + emotion2)
+function autoPopulateEmotion() {
+  var e1 = val('p_emotion1');
+  var e2 = val('p_emotion2');
+  var combined = '';
+  if (e1 && e2) { combined = 'Emotion #1: ' + e1 + '\n─────────────\nEmotion #2: ' + e2; }
+  else if (e1)  { combined = e1; }
+  else if (e2)  { combined = e2; }
+  var el = document.getElementById('emotion_causing');
+  if (el && el.dataset.manualEdit !== 'true') el.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP FEELING (all P fields)
+function autoPopulateRecapFeeling() {
+  var pFields = [
+    {id:'p_howlong',      label:'Playing for'},
+    {id:'p_ear',          label:'Ear strength'},
+    {id:'p_allkeys',      label:'Tried all keys'},
+    {id:'p_whathappens',  label:'What happens'},
+    {id:'p_bigchallenge', label:'Biggest challenge'},
+    {id:'p_12months',     label:'Last 12 months'},
+    {id:'p_emotion1',     label:'Emotion #1'},
+    {id:'p_emotion2',     label:'Emotion #2'},
+    {id:'p_keepingfrom',  label:'Keeping them from'},
+    {id:'q_embellish',    label:'Embellishments'},
+  ];
+  var parts = [];
+  pFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_feeling');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP TRIED (all T fields)
+function autoPopulateRecapTried() {
+  var tFields = [
+    {id:'t_background',   label:'Background'},
+    {id:'t_attempted',    label:'Attempted by ear'},
+    {id:'t_wrongwhat',    label:'What went wrong'},
+    {id:'t_howlong',      label:'How long trying'},
+    {id:'t_programs',     label:'Other programs'},
+    {id:'t_whydidntwork', label:'Why didn\'t work'},
+    {id:'t_triedtofix',   label:'Tried to fix with'},
+  ];
+  var parts = [];
+  tFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_tried');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP NEED (all N fields)
+function autoPopulateRecapNeed() {
+  var nFields = [
+    {id:'n_shifted',    label:'What shifted'},
+    {id:'n_important',  label:'Why important'},
+    {id:'goal_6to12',   label:'6-12 month goal'},
+  ];
+  var parts = [];
+  nFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_need');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
 function updateSummary() {
-  // Update header meta
-  var rep = document.getElementById('repName').value;
-  var date = document.getElementById('callDate').value;
-  var prospect = document.getElementById('prospectName').value;
-  document.getElementById('sum_rep').textContent = rep || '—';
-  document.getElementById('sum_date').textContent = date || '—';
-  document.getElementById('sum_prospect').textContent = prospect || '—';
+  // Header meta
+  setSum('sum_rep',      val('repName'));
+  setSum('sum_date',     val('callDate'));
+  setSum('sum_prospect', val('prospectName'));
+  document.getElementById('sum_rep').textContent      = val('repName')      || '—';
+  document.getElementById('sum_date').textContent     = val('callDate')     || '—';
+  document.getElementById('sum_prospect').textContent = val('prospectName') || '—';
 
   // Update all mapped fields
   fieldMap.forEach(function(pair) {
-    var inputEl = document.getElementById(pair[0]);
+    var inputEl  = document.getElementById(pair[0]);
     var outputEl = document.getElementById(pair[1]);
     if (inputEl && outputEl) {
-      var val = inputEl.value.trim();
-      outputEl.textContent = val || '—';
-      if (val) {
-        outputEl.classList.remove('empty-val');
-      } else {
-        outputEl.classList.add('empty-val');
-      }
+      var v = inputEl.value.trim();
+      outputEl.textContent = v || '—';
+      if (v) { outputEl.classList.remove('empty-val'); }
+      else   { outputEl.classList.add('empty-val'); }
     }
   });
+
+  // Update recap script box live display
+  var name = val('prospectName');
+  var recapName = document.getElementById('sum_recap_name');
+  if (recapName) recapName.textContent = name || 'NAME';
+
+  var recapFeeling = document.getElementById('sum_recap_feeling');
+  if (recapFeeling) {
+    var rf = val('recap_feeling');
+    recapFeeling.textContent = rf || '— fill in Pain answers above —';
+  }
+  var recapTried = document.getElementById('sum_recap_tried');
+  if (recapTried) {
+    var rt = val('recap_tried');
+    recapTried.textContent = rt || '— fill in Tried answers above —';
+  }
+  var recapNeed = document.getElementById('sum_recap_need');
+  if (recapNeed) {
+    var rn = val('recap_need');
+    recapNeed.textContent = rn || '— fill in Need answers above —';
+  }
+  var recapNowLater = document.getElementById('sum_recap_nowlater');
+  if (recapNowLater) {
+    recapNowLater.textContent = val('q_now_or_later') || '—';
+  }
+
+  // Trigger all auto-populations
+  autoPopulate12Months();
 }
+
+// Mark fields as manually edited so auto-populate stops overwriting
+['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', function() {
+      this.dataset.manualEdit = 'true';
+    });
+  }
+});
+
+// Hook up N fields to trigger goal auto-populate
+['n_shifted','n_important','goal_6to12'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', function() { autoPopulateGoal(); autoPopulateRecapNeed(); });
+});
+
+// Hook up P fields to trigger recap feeling auto-populate
+['p_howlong','p_ear','p_allkeys','p_whathappens','p_bigchallenge','p_12months','p_emotion1','p_emotion2','p_keepingfrom','q_embellish'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', function() { autoPopulateRecapFeeling(); autoPopulateEmotion(); });
+});
+
+// Hook up T fields to trigger recap tried auto-populate
+['t_background','t_attempted','t_wrongwhat','t_howlong','t_programs','t_whydidntwork','t_triedtofix'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', function() { autoPopulateRecapTried(); });
+});
+
+// Hook up issue_main to trigger issue_recap auto-populate
+var issueMainEl = document.getElementById('issue_main');
+if (issueMainEl) issueMainEl.addEventListener('input', function() { autoPopulateIssueRecap(); });
 
 // Set today's date as default
 window.onload = function() {
@@ -1014,6 +1236,8 @@ function submitToSheets() {
     prospectLevel:    document.getElementById('prospectLevel').value,
     callDate:         document.getElementById('callDate').value,
     repName:          document.getElementById('repName').value,
+    q_zooming:        document.getElementById('q_zooming').value,
+    q_longtime:       document.getElementById('q_longtime').value,
     whatTheyWant:     document.getElementById('whatTheyWant').value,
     p_howlong:        document.getElementById('p_howlong').value,
     p_ear:            document.getElementById('p_ear').value,
@@ -1044,6 +1268,8 @@ function submitToSheets() {
     recap_feeling:    document.getElementById('recap_feeling').value,
     recap_tried:      document.getElementById('recap_tried').value,
     recap_need:       document.getElementById('recap_need').value,
+    q_embellish:      document.getElementById('q_embellish').value,
+    q_now_or_later:   document.getElementById('q_now_or_later').value,
   };
 
   fetch(SCRIPT_URL, {
