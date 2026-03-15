@@ -420,6 +420,14 @@ h1, h2, h3, h4 { line-height: 1.3; }
         <label>Sales Rep Name</label>
         <input type="text" id="repName" placeholder="e.g. Sarah Johnson" oninput="updateSummary()">
       </div>
+      <div>
+        <label>📊 Application — Determination Score (/10)</label>
+        <input type="number" id="determinationScore" min="1" max="10" placeholder="e.g. 8" oninput="updateSummary()" style="font-size:16px; font-weight:700; color:#c0392b;">
+      </div>
+      <div style="grid-column: span 2;">
+        <label>📝 Application — Most Powerful Thing They Said</label>
+        <input type="text" id="appPowerfulThing" placeholder="Type the most powerful thing from their application..." oninput="updateSummary()" style="width:100%;">
+      </div>
     </div>
   </div>
 
@@ -490,14 +498,12 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-issue" style="background:#1a5276; color:#fff; font-size:11px; padding:2px 7px;">MAIN ISSUE</span> OK, so your main issue is:</div>
-      <textarea class="answer-field issue-field" id="issue_main" placeholder="Auto-populates from the two issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
-    </div>
-
-    <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> So what have you tried to fix [their issue] right now?</div>
       <textarea class="answer-field t-field" id="t_triedtofix" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
+
+    <!-- Hidden field to hold the combined main issue value -->
+    <textarea id="issue_main" style="display:none;" oninput="updateSummary()"></textarea>
   </div>
 
   <!-- ===== PAGE 3: DISAPPOINTING RESULTS ===== -->
@@ -571,8 +577,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="script-line">"Ok got it… so… just to make sure I understand, you're essentially saying that the issue is..."</div>
 
     <div class="q-row">
-      <div class="q-label"><span class="tag tag-issue">ISSUE</span> The issue is: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from issues above)</span></div>
-      <textarea class="answer-field issue-field" id="issue_recap" placeholder="Auto-populates from issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
+      <div class="q-label"><span class="tag tag-issue" style="background:#1a5276; color:#fff; font-size:11px; padding:2px 7px;">MAIN ISSUE</span> OK, so your main issue is: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from Page 2 challenges)</span></div>
+      <textarea class="answer-field issue-field" id="issue_recap" placeholder="Auto-populates from biggest challenge + aside challenge above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
     </div>
 
     <div class="q-row">
@@ -637,13 +643,12 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="script-line">"That's why UNDERSTANDING THE LANGUAGE works so well. In fact in a few minutes, I'd be happy to walk you through exactly how it works. But just real quick… I noticed a couple of things on your application form."</div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> You put that you're a ______ /10 on determined to make this work. Could you explain how you got that number for me?</div>
-      <textarea class="answer-field" id="q_determined" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> You put that you're a <strong><span id="auto_determination" style="color:#c0392b; font-size:16px;">___</span></strong>/10 on determined to make this work. Could you explain how you got that number for me?</div>
+      <textarea class="answer-field" id="q_determined" placeholder="Their response..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> I also noticed on your form you said: <input type="text" class="write-in" id="q_noticedspecific" placeholder="write the most powerful thing they said..." oninput="updateSummary()"> — and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
-      <textarea class="answer-field" id="q_noticed" placeholder="Their response..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> I also noticed on your form you said: <strong><span id="auto_powerful_thing" style="color:#c0392b; font-style:normal;">___</span></strong> — and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
     </div>
 
     <div class="script-line">[PAUSE FOR A RESPONSE]</div>
@@ -953,7 +958,7 @@ function setSum(id, text) {
   else { el.classList.add('empty-val'); }
 }
 
-// ── AUTO-POPULATE: MAIN ISSUE (from p_bigchallenge + issue_aside)
+// ── AUTO-POPULATE: MAIN ISSUE (from p_bigchallenge + issue_aside) → writes to issue_recap on Page 4
 function autoPopulateMainIssue() {
   var c1 = val('p_bigchallenge');
   var c2 = val('issue_aside');
@@ -963,7 +968,10 @@ function autoPopulateMainIssue() {
   else if (c2)  { combined = c2; }
   var mainIssueEl = document.getElementById('issue_main');
   if (mainIssueEl) mainIssueEl.value = combined;
-  updateSummary();
+  var recapEl = document.getElementById('issue_recap');
+  if (recapEl && recapEl.dataset.manualEdit !== 'true') {
+    recapEl.value = combined;
+  }
 }
 
 // ── AUTO-POPULATE: 12 MONTHS inline display
@@ -977,18 +985,12 @@ function autoPopulate12Months() {
   updateSummary();
 }
 
-// ── AUTO-POPULATE: ISSUE RECAP (from issue_main)
-function autoPopulateIssueRecap() {
-  var v = val('issue_main');
-  var el = document.getElementById('issue_recap');
-  if (el && el.dataset.manualEdit !== 'true') el.value = v;
-  updateSummary();
-}
+
 
 // ── AUTO-POPULATE: GOAL keeping from (from all N fields)
 function autoPopulateGoal() {
   var parts = [];
-  var nFields = ['n_shifted', 'n_important', 'goal_6to12'];
+  var nFields = ['n_shifted', 'goal_6to12'];
   nFields.forEach(function(id) {
     var v = val(id);
     if (v) parts.push(v);
@@ -996,7 +998,6 @@ function autoPopulateGoal() {
   var combined = parts.join('\n─────────────\n');
   var el = document.getElementById('goal_keepingfrom');
   if (el && el.dataset.manualEdit !== 'true') el.value = combined;
-  updateSummary();
 }
 
 // ── AUTO-POPULATE: EMOTION causing (from emotion1 + emotion2)
@@ -1009,7 +1010,6 @@ function autoPopulateEmotion() {
   else if (e2)  { combined = e2; }
   var el = document.getElementById('emotion_causing');
   if (el && el.dataset.manualEdit !== 'true') el.value = combined;
-  updateSummary();
 }
 
 // ── AUTO-POPULATE: RECAP FEELING (all P fields)
@@ -1032,7 +1032,6 @@ function autoPopulateRecapFeeling() {
   });
   var el = document.getElementById('recap_feeling');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
-  updateSummary();
 }
 
 // ── AUTO-POPULATE: RECAP TRIED (all T fields)
@@ -1052,15 +1051,13 @@ function autoPopulateRecapTried() {
   });
   var el = document.getElementById('recap_tried');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
-  updateSummary();
 }
 
-// ── AUTO-POPULATE: RECAP NEED (all N fields)
+// ── AUTO-POPULATE: RECAP NEED (all N fields — n_important merged into goal_6to12)
 function autoPopulateRecapNeed() {
   var nFields = [
-    {id:'n_shifted',    label:'What shifted'},
-    {id:'n_important',  label:'Why important'},
-    {id:'goal_6to12',   label:'6-12 month goal'},
+    {id:'n_shifted',  label:'What shifted'},
+    {id:'goal_6to12', label:'Goals & why important'},
   ];
   var parts = [];
   nFields.forEach(function(f) {
@@ -1069,7 +1066,16 @@ function autoPopulateRecapNeed() {
   });
   var el = document.getElementById('recap_need');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
-  updateSummary();
+  // Also update the summary display span for recap_need
+  var sumEl = document.getElementById('sum_recap_need');
+  if (sumEl) sumEl.textContent = el && el.value ? el.value : '— fill in Need answers above —';
+}
+
+// ── AUTO-POPULATE: POWERFUL THING from top bar → Page 6
+function autoPopulatePowerfulThing() {
+  var v = val('appPowerfulThing');
+  var el = document.getElementById('auto_powerful_thing');
+  if (el) el.textContent = v || '___';
 }
 
 function updateSummary() {
@@ -1120,6 +1126,21 @@ function updateSummary() {
 
   // Trigger all auto-populations
   autoPopulate12Months();
+  autoPopulateDetermination();
+  autoPopulatePowerfulThing();
+  autoPopulateRecapNeed();
+  autoPopulateGoal();
+  autoPopulateEmotion();
+  autoPopulateRecapFeeling();
+  autoPopulateRecapTried();
+  autoPopulateMainIssue();
+}
+
+// ── AUTO-POPULATE: DETERMINATION SCORE into Page 6
+function autoPopulateDetermination() {
+  var v = val('determinationScore');
+  var el = document.getElementById('auto_determination');
+  if (el) el.textContent = v || '___';
 }
 
 // ── DEBOUNCE: wait 300ms after typing stops before running auto-populate
@@ -1141,16 +1162,26 @@ function debounce(fn, delay) {
   }
 });
 
-// Hook up N fields to trigger goal auto-populate (debounced)
-['n_shifted','n_important','goal_6to12'].forEach(function(id) {
+// Hook up N fields to trigger goal + recap need auto-populate (debounced)
+['n_shifted','goal_6to12'].forEach(function(id) {
   var el = document.getElementById(id);
   if (el) el.addEventListener('input', debounce(function() { autoPopulateGoal(); autoPopulateRecapNeed(); }, 300));
 });
 
+// Hook up powerful thing field (debounced)
+var powerfulEl = document.getElementById('appPowerfulThing');
+if (powerfulEl) powerfulEl.addEventListener('input', debounce(function() { autoPopulatePowerfulThing(); }, 300));
+
 // Hook up P fields to trigger recap feeling auto-populate (debounced)
-['p_howlong','p_ear','p_allkeys','p_whathappens','p_bigchallenge','p_12months','p_emotion1','p_emotion2','p_keepingfrom','q_embellish'].forEach(function(id) {
+['p_howlong','p_ear','p_allkeys','p_bigchallenge','p_12months','p_keepingfrom','q_embellish'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapFeeling(); autoPopulateEmotion(); }, 300));
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapFeeling(); }, 300));
+});
+
+// Hook up EMOTION fields separately to ensure both always trigger emotion auto-populate (debounced)
+['p_emotion1','p_emotion2'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateEmotion(); autoPopulateRecapFeeling(); }, 300));
 });
 
 // Hook up T fields to trigger recap tried auto-populate (debounced)
@@ -1159,15 +1190,15 @@ function debounce(fn, delay) {
   if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapTried(); }, 300));
 });
 
-// Hook up issue fields to trigger main issue auto-populate (debounced)
+// Hook up issue fields — both trigger autoPopulateMainIssue which writes directly to issue_recap (debounced)
 ['p_bigchallenge','issue_aside'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateMainIssue(); }, 300));
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateMainIssue(); autoPopulateRecapFeeling(); }, 300));
 });
 
-// Hook up issue_main to trigger issue_recap auto-populate (debounced)
-var issueMainEl = document.getElementById('issue_main');
-if (issueMainEl) issueMainEl.addEventListener('input', debounce(function() { autoPopulateIssueRecap(); }, 300));
+// Hook up determination score (debounced)
+var detEl = document.getElementById('determinationScore');
+if (detEl) detEl.addEventListener('input', debounce(function() { autoPopulateDetermination(); }, 300));
 
 // Set today's date as default
 window.onload = function() {
@@ -1196,7 +1227,6 @@ function submitToSheets() {
     p_howlong:        document.getElementById('p_howlong').value,
     p_ear:            document.getElementById('p_ear').value,
     p_allkeys:        document.getElementById('p_allkeys').value,
-    p_whathappens:    document.getElementById('p_whathappens').value,
     p_bigchallenge:   document.getElementById('p_bigchallenge').value,
     p_12months:       document.getElementById('p_12months').value,
     p_emotion1:       document.getElementById('p_emotion1').value,
@@ -1204,7 +1234,6 @@ function submitToSheets() {
     p_keepingfrom:    document.getElementById('p_keepingfrom').value,
     t_background:     document.getElementById('t_background').value,
     t_attempted:      document.getElementById('t_attempted').value,
-    t_wrongwhat:      document.getElementById('t_wrongwhat').value,
     t_howlong:        document.getElementById('t_howlong').value,
     t_programs:       document.getElementById('t_programs').value,
     t_whydidntwork:   document.getElementById('t_whydidntwork').value,
@@ -1222,8 +1251,11 @@ function submitToSheets() {
     recap_feeling:    document.getElementById('recap_feeling').value,
     recap_tried:      document.getElementById('recap_tried').value,
     recap_need:       document.getElementById('recap_need').value,
-    q_embellish:      document.getElementById('q_embellish').value,
-    q_now_or_later:   document.getElementById('q_now_or_later').value,
+    q_embellish:         document.getElementById('q_embellish').value,
+    q_now_or_later:      document.getElementById('q_now_or_later').value,
+    determinationScore:  document.getElementById('determinationScore').value,
+    q_determined:        document.getElementById('q_determined').value,
+    appPowerfulThing:    document.getElementById('appPowerfulThing').value,
   };
 
   fetch(SCRIPT_URL, {
