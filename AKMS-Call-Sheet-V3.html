@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKMS Hybrid Push Call — V3 Smart Form</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; font-size: 15px; }
+
+h1, h2, h3, h4 { line-height: 1.3; }
+
+.page-title {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 24px 32px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-title h1 { font-size: 20px; letter-spacing: 1px; }
+.page-title .version { color: #f7c948; font-size: 13px; font-weight: 700; }
+
+.form-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+/* PROSPECT BAR */
+.prospect-bar {
+  background: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+  padding: 20px 32px;
+}
+.prospect-bar h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 14px; }
+.prospect-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 14px;
+}
+.prospect-grid label { font-size: 12px; font-weight: 700; color: #555; display: block; margin-bottom: 4px; }
+.prospect-grid input, .prospect-grid select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+}
+.prospect-grid input:focus, .prospect-grid select:focus {
+  outline: none;
+  border-color: #1a1a2e;
+}
+
+/* SECTION BLOCKS */
+.section-block {
+  border-bottom: 1px solid #eee;
+  padding: 24px 32px;
+}
+.section-block:last-of-type { border-bottom: none; }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.note-box {
+  background: #fffbe6;
+  border-left: 4px solid #f7c948;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 16px;
+  border-radius: 0 6px 6px 0;
+}
+
+/* QUESTION ROWS */
+.q-row {
+  margin-bottom: 16px;
+}
+.q-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #222;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.q-label input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* TAGS */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 1px 5px;
+  flex-shrink: 0;
+  margin-right: 2px;
+  line-height: 1.4;
+}
+.tag-p { border-color: #c0392b; color: #c0392b; }
+.tag-t { border-color: #d35400; color: #d35400; }
+.tag-n { border-color: #1e8449; color: #1e8449; }
+.tag-issue { border-color: #1a5276; color: #1a5276; }
+.tag-goal { border-color: #7d3c98; color: #7d3c98; }
+.tag-emotion { border-color: #b7950b; color: #b7950b; }
+.tag-spouse { border-color: #117a65; color: #117a65; }
+.tag-recap { border-color: #1a1a2e; color: #1a1a2e; background: #f7c948; }
+
+.answer-field {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 42px;
+  font-family: inherit;
+  color: #1a1a2e;
+  transition: border-color 0.2s;
+}
+.answer-field:focus {
+  outline: none;
+  border-color: #1a1a2e;
+  background: #fafeff;
+}
+
+.answer-field.p-field:focus { border-color: #c0392b; }
+.answer-field.t-field:focus { border-color: #d35400; }
+.answer-field.n-field:focus { border-color: #1e8449; }
+.answer-field.issue-field:focus { border-color: #1a5276; }
+.answer-field.goal-field:focus { border-color: #7d3c98; }
+.answer-field.emotion-field:focus { border-color: #b7950b; }
+.answer-field.spouse-field:focus { border-color: #117a65; }
+
+.script-line {
+  font-style: italic;
+  color: #444;
+  background: #f9f9f9;
+  border-left: 3px solid #ccc;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-size: 14px;
+  border-radius: 0 6px 6px 0;
+}
+
+.bullet-options {
+  margin: 6px 0 6px 28px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.inline-blank {
+  display: inline-block;
+  border-bottom: 1.5px solid #333;
+  min-width: 180px;
+  margin: 0 4px;
+}
+
+/* TALKING POINTS */
+.talking-points {
+  background: #f0f4ff;
+  border: 1.5px solid #c5d0e8;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.talking-points strong { display: block; margin-bottom: 8px; color: #1a1a2e; }
+.talking-points ul { margin-left: 18px; line-height: 2; color: #333; }
+
+/* WRITE-IN LINE */
+.write-in {
+  border: none;
+  border-bottom: 1.5px solid #999;
+  background: transparent;
+  font-size: 14px;
+  padding: 2px 4px;
+  width: 300px;
+  font-family: inherit;
+}
+.write-in:focus { outline: none; border-bottom-color: #1a1a2e; }
+
+/* ===================== SUMMARY PAGE ===================== */
+.summary-wrapper {
+  background: #fff;
+  border-top: 3px solid #1a1a2e;
+  margin-top: 32px;
+}
+
+.summary-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.summary-header h2 { font-size: 18px; letter-spacing: 1px; }
+.summary-header .meta { font-size: 12px; color: #aab; line-height: 2; text-align: right; }
+.summary-header .meta span { color: #fff; font-weight: 700; }
+
+.recap-banner {
+  background: #f7c948;
+  color: #1a1a2e;
+  text-align: center;
+  padding: 10px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.summary-body { padding: 24px 32px; }
+
+.sum-section {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid #e8e8e8;
+}
+
+.sum-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.sum-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.sh-pain { background: #fff0f0; color: #c0392b; }
+.sh-pain .sum-badge { background: #c0392b; }
+.sh-tried { background: #fff7e6; color: #d35400; }
+.sh-tried .sum-badge { background: #d35400; }
+.sh-need { background: #eafaf1; color: #1e8449; }
+.sh-need .sum-badge { background: #1e8449; }
+.sh-issue { background: #eaf0fb; color: #1a5276; }
+.sh-issue .sum-badge { background: #1a5276; font-size: 9px; }
+.sh-goal { background: #f5eef8; color: #7d3c98; }
+.sh-goal .sum-badge { background: #7d3c98; font-size: 9px; }
+.sh-emotion { background: #fef9e7; color: #b7950b; }
+.sh-emotion .sum-badge { background: #b7950b; font-size: 9px; }
+.sh-spouse { background: #eafbfb; color: #117a65; }
+.sh-spouse .sum-badge { background: #117a65; font-size: 9px; }
+
+.sum-items { padding: 4px 0 8px 0; }
+
+.sum-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 13px;
+}
+.sum-item:last-child { border-bottom: none; }
+
+.sum-item-label {
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+  min-width: 190px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.sum-item-answer {
+  color: #1a1a2e;
+  font-weight: 600;
+  flex: 1;
+  min-height: 18px;
+}
+.sum-item-answer.empty-val {
+  color: #bbb;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.recap-script-box {
+  background: #1a1a2e;
+  color: #ccc;
+  border-radius: 8px;
+  padding: 18px 22px;
+  font-size: 13px;
+  line-height: 1.9;
+  margin-top: 8px;
+}
+.recap-script-box strong { color: #f7c948; display: block; margin-bottom: 10px; font-size: 14px; }
+.recap-script-box .hint { color: #f7c948; font-style: italic; font-size: 12px; }
+
+/* SUBMIT */
+.submit-section {
+  padding: 24px 32px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #f7c948, #f0a500);
+  color: #1a1a2e;
+  font-size: 16px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: opacity 0.2s;
+}
+.submit-btn:hover { opacity: 0.9; }
+
+.success-msg {
+  display: none;
+  background: #eafaf1;
+  border: 2px solid #1e8449;
+  color: #1e8449;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 14px;
+}
+
+.error-msg {
+  display: none;
+  background: #fff0f0;
+  border: 2px solid #c0392b;
+  color: #c0392b;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 14px;
+}
+
+@media (max-width: 600px) {
+  .prospect-grid { grid-template-columns: 1fr 1fr; }
+  .section-block { padding: 18px 16px; }
+  .summary-body { padding: 16px; }
+  .submit-section { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="form-wrapper">
+
+  <!-- PAGE TITLE -->
+  <div class="page-title">
+    <div>
+      <h1>📋 AKMS HYBRID PUSH CALL</h1>
+      <div style="font-size:12px; color:#aab; margin-top:4px;">Sales Call Checklist — Smart Form</div>
+    </div>
+    <div class="version">VERSION 3 — FINAL</div>
+  </div>
+
+  <!-- PROSPECT INFO BAR -->
+  <div class="prospect-bar">
+    <h3>📌 Call Details — Fill in before the call starts</h3>
+    <div class="prospect-grid">
+      <div>
+        <label>Prospect Name</label>
+        <input type="text" id="prospectName" placeholder="e.g. Michael Thompson" oninput="updateSummary()">
+      </div>
+      <div>
+        <label>Piano Level</label>
+        <select id="prospectLevel" onchange="updateSummary()">
+          <option value="">— Select —</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+      </div>
+      <div>
+        <label>Date of Call</label>
+        <input type="date" id="callDate" oninput="updateSummary()">
+      </div>
+      <div>
+        <label>Sales Rep Name</label>
+        <input type="text" id="repName" placeholder="e.g. Sarah Johnson" oninput="updateSummary()">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 1: INTRO ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 1 — Intro</div>
+
+    <p style="margin-bottom:10px;">Hi, can you hear me ok?</p>
+    <p style="margin-bottom:10px;">Great, this is <strong>NAME</strong>, right? <span class="inline-blank"></span></p>
+    <p style="margin-bottom:10px;">Where are you Zooming in from? <input type="text" class="answer-field" id="q_zooming" placeholder="Type their location..." oninput="updateSummary()" style="display:inline-block; width:320px; margin-left:6px;"></p>
+    <p style="margin-bottom:16px;">Have you been there for a long time? <input type="text" class="answer-field" id="q_longtime" placeholder="Type their answer..." oninput="updateSummary()" style="display:inline-block; width:320px; margin-left:6px;"></p>
+
+    <p style="margin-bottom:10px;">Great, is it ok if we get started?</p>
+
+    <div class="script-line">"Okay [NAME], I want to be respectful of our time today, we have about 45 minutes or so to see if we can help you…"</div>
+
+    <div class="q-row">
+      <div class="q-label">What they want:</div>
+      <input type="text" class="answer-field" id="whatTheyWant" placeholder="Insert what they want..." oninput="updateSummary()">
+    </div>
+
+    <div class="script-line">"So in order to determine if we can help you do that, I'm going to ask you some questions to find out what the problems are so we can fix them… and I'll be writing down my notes."</div>
+    <div class="script-line">"Once we find out what is keeping you from [WHAT THEY WANT], I'll share with you EXACTLY what you need to do to fix it… If you feel like you're going to want more help from me, I'll provide some options for you. Sound good?"</div>
+  </div>
+
+  <!-- ===== PAGE 2: THE DETECTIVE ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 2 — The Detective: Uncover the Problem</div>
+    <div class="note-box">NOTE: Lots of questions. Minimal talking. Record calls for training purposes.</div>
+
+    <div class="section-title" style="font-size:13px; margin-top:20px;">Basic Line of Questioning</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> How long have you been playing piano?</div>
+      <textarea class="answer-field p-field" id="p_howlong" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> What's your musical background?</div>
+      <textarea class="answer-field t-field" id="t_background" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> How strong would you say your Musical Ear is?</div>
+      <textarea class="answer-field p-field" id="p_ear" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> <span class="tag tag-p">P</span> Have you attempted to figure out songs By Ear before — and if so, what went wrong?</div>
+      <textarea class="answer-field t-field" id="t_attempted" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Have you tried playing songs in all keys — and what happens when you try?</div>
+      <textarea class="answer-field p-field" id="p_allkeys" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="section-title" style="font-size:13px; margin-top:20px;">Isolate the Big Problem</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> Got it, so… what would you say is the biggest challenge you have right now, or at least, what's not working to the level you feel like it should?</div>
+      <textarea class="answer-field p-field" id="p_bigchallenge" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> And aside from that, is there any other challenge or roadblock that's in the way right now?</div>
+      <textarea class="answer-field issue-field" id="issue_aside" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-issue" style="background:#1a5276; color:#fff; font-size:11px; padding:2px 7px;">MAIN ISSUE</span> OK, so your main issue is:</div>
+      <textarea class="answer-field issue-field" id="issue_main" placeholder="Auto-populates from the two issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> So what have you tried to fix [their issue] right now?</div>
+      <textarea class="answer-field t-field" id="t_triedtofix" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 3: DISAPPOINTING RESULTS ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 3 — Get Them to Say Their Results Out Loud</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> In the last 12 months — how many songs were you able to play at the level you wanted?</div>
+      <textarea class="answer-field p-field" id="p_12months" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-p">P</span> Ok… so about <strong><span id="auto_12months" style="color:#c0392b; font-style:italic;">___</span></strong> in the last 12 months.</div>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> How many keys can you play those songs in — and out of those, how many can you add embellishments to?</div>
+      <textarea class="answer-field p-field" id="q_embellish" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="script-line">Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right? <em>Yikes, ok. We need to fix this pretty soon then.</em></div>
+
+    <div class="section-title" style="font-size:13px; margin-top:20px;">☐ Pain Amplification Questions</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> How long exactly have you been trying?</div>
+      <textarea class="answer-field t-field" id="t_howlong" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-emotion">EMOTION #1</span> Wow, I mean… has that had an impact on you?... In what way though?</div>
+      <textarea class="answer-field p-field" id="p_emotion1" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 4: PAIN AMPLIFICATION CONTINUED ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 4 — Pain Amplification Continued</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-emotion">EMOTION #2</span> Has that put you in a tough spot emotionally?... In what way?</div>
+      <textarea class="answer-field p-field" id="p_emotion2" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> So have you joined any other programs to get this fixed?</div>
+      <div class="bullet-options">Yes → How did that go? &nbsp;|&nbsp; No → Why not?</div>
+      <textarea class="answer-field t-field" id="t_programs" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="note-box">NOTE: Find out what didn't work in the other program (e.g. lack of support) so you can tailor your pitch accordingly.</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> Why do you think that is?</div>
+      <textarea class="answer-field t-field" id="t_whydidntwork" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="note-box">NOTE: Hopefully they'll tell you what they felt the program was lacking.</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> So, what shifted recently to make this a priority?</div>
+      <textarea class="answer-field n-field" id="n_shifted" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> What are your musical goals for the next 6–12 months — and why does that matter to you personally?</div>
+      <textarea class="answer-field n-field" id="goal_6to12" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="section-title" style="font-size:13px; margin-top:20px;">Summary / Recap Statement</div>
+    <div class="script-line">"Ok got it… so… just to make sure I understand, you're essentially saying that the issue is..."</div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-issue">ISSUE</span> The issue is: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from issues above)</span></div>
+      <textarea class="answer-field issue-field" id="issue_recap" placeholder="Auto-populates from issues above..." oninput="updateSummary()" rows="3" style="background:#eaf0fb;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-goal">GOAL</span> ...which is keeping you from: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all N fields)</span></div>
+      <textarea class="answer-field goal-field" id="goal_keepingfrom" placeholder="Auto-populates from all N answers above..." oninput="updateSummary()" rows="3" style="background:#f5eef8;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-emotion">EMOTION #1</span> <span class="tag tag-emotion">EMOTION #2</span> ...which I think you said was causing: <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from emotions)</span></div>
+      <textarea class="answer-field emotion-field" id="emotion_causing" placeholder="Auto-populates from Emotion #1 and #2 above..." oninput="updateSummary()" rows="3" style="background:#fef9e7;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-spouse">SPOUSE</span> Do you have a spouse or a partner that's supportive of your musical goals?</div>
+      <textarea class="answer-field spouse-field" id="spouse_supportive" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-spouse">SPOUSE</span> Are they aware of how much you've been trying to fix this?</div>
+      <textarea class="answer-field spouse-field" id="spouse_aware" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 5: CREATE DOUBT ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 5 — Create Doubt</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Can I ask you an honest question? What do you think has been keeping you from figuring this out on your own? What's in the way?</div>
+      <textarea class="answer-field p-field" id="p_keepingfrom" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="script-line">"This all makes sense to me [NAME]… You're certainly not the first person to be struggling with all this…"</div>
+    <div class="script-line">"In fact, do you mind if I go off on a little tangent real quick, because it might be helpful for you to know a bit of what's going on behind the scenes as to why this Advanced Playing By Ear is actually a little harder right now — is that ok?"</div>
+
+    <div class="talking-points">
+      <strong>TALKING POINTS — Expose the industry (target what they've tried that didn't work):</strong>
+      <ul>
+        <li><strong>Theory</strong> — e.g. Music Schools &amp; University</li>
+        <li><strong>Intervals</strong> — e.g. Music Schools &amp; University</li>
+        <li><strong>Chord Charts</strong> — e.g. Online Courses &amp; Memberships</li>
+        <li><strong>Copy-Me Videos/Apps</strong> — e.g. Online Courses &amp; Memberships</li>
+        <li><strong>Perfect Pitch</strong> — e.g. Savants</li>
+      </ul>
+      <em style="font-size:12px;">(Make it sound like this came off the top of your head)</em>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Are you familiar with these methods?</div>
+      <textarea class="answer-field" id="q_familiar" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="script-line">"Doing those is SO hard to see any REAL PIANO BY EAR results. It's no wonder why millions of pianists can't play a song without the Copy-Me stuff."</div>
+    <div class="script-line">"The ISSUE ISN'T YOUR EAR. MUSIC is a LANGUAGE. You simply DON'T UNDERSTAND THE LANGUAGE you're hearing."</div>
+    <div class="script-line">[French/Chinese language example] — Does that make sense?</div>
+  </div>
+
+  <!-- ===== PAGE 6: APPLICATION REVIEW ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 6 — Application Review</div>
+
+    <div class="script-line">"That's why UNDERSTANDING THE LANGUAGE works so well. In fact in a few minutes, I'd be happy to walk you through exactly how it works. But just real quick… I noticed a couple of things on your application form."</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> You put that you're a ______ /10 on determined to make this work. Could you explain how you got that number for me?</div>
+      <textarea class="answer-field" id="q_determined" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> I also noticed on your form you said: <input type="text" class="write-in" id="q_noticedspecific" placeholder="write the most powerful thing they said..." oninput="updateSummary()"> — and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
+      <textarea class="answer-field" id="q_noticed" placeholder="Their response..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="script-line">[PAUSE FOR A RESPONSE]</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Great — is there anything at all that you feel like we haven't covered, that would be good for me to know?</div>
+      <textarea class="answer-field" id="q_anythingelse" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Is 5 hours a week something you'd be willing and able to commit to right now to make that happen?</div>
+      <textarea class="answer-field" id="q_5hours" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 7: WRAP IT UP ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 7 — Wrap It Up</div>
+
+    <div class="script-line">"[NAME], I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
+    <div class="note-box">NOTE: Give a good 30–60 second summary of everything they've said. Make them feel truly heard and understood. USE THE RECAP SUMMARY BELOW ↓</div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-recap">RECAP</span> <span class="tag tag-p">P</span> You're feeling… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all P answers)</span></div>
+      <textarea class="answer-field p-field" id="recap_feeling" placeholder="Auto-populates from all Pain answers..." oninput="updateSummary()" rows="4" style="background:#fff5f5;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-t">T</span> You've tried… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all T answers)</span></div>
+      <textarea class="answer-field t-field" id="recap_tried" placeholder="Auto-populates from all Tried answers..." oninput="updateSummary()" rows="4" style="background:#fff9f0;"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><span class="tag tag-n">N</span> You need… <span style="font-size:11px; color:#888; font-style:italic;">(auto-populated from all N answers)</span></div>
+      <textarea class="answer-field n-field" id="recap_need" placeholder="Auto-populates from all Need answers..." oninput="updateSummary()" rows="4" style="background:#f0faf4;"></textarea>
+    </div>
+
+    <div class="script-line">"Is that about right?" — [WAIT FOR A YES]</div>
+    <div class="script-line">"Awesome, well, we could definitely help with this…. In fact, you remind me of…"</div>
+
+    <div class="q-row">
+      <div class="q-label">Client story / name to reference:</div>
+      <input type="text" class="answer-field" id="q_clientstory" placeholder="Client name or story to reference..." oninput="updateSummary()">
+    </div>
+
+    <div class="script-line">"Unfortunately you have a lot of cracks because you're playing in the dark." [Dark House Analogy]</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Question — were you looking to get out of the dark and start fixing the cracks NOW, or SOME TIME NEXT YEAR?</div>
+      <textarea class="answer-field" id="q_now_or_later" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 8: ROADMAP ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 8 — The Roadmap</div>
+
+    <div class="script-line">"Ok great. Well, I can definitely help you here. Got a pen or something to take notes on?"</div>
+    <div class="script-line">"Perfect, so here's what you need… and it's important to fix it in this order."</div>
+    <div class="note-box">NOTE: Relate all roadmap steps back to what they told you during the detective section. Keep referencing clients ALL the way through.</div>
+
+    <div style="background:#f8f9fa; border-radius:8px; padding:16px 20px; margin:12px 0; font-size:14px; line-height:2.2;">
+      <strong>01 – FOUNDATION</strong><br>
+      <strong>02 – PLAY IN ANY KEY</strong><br>
+      <strong>03 – ARRANGING</strong><br>
+      <strong>04 – ACCESSORIES</strong>
+    </div>
+
+    <div class="script-line">"How does that sound to you?"</div>
+    <div class="script-line">"Well this is the exact process we walk our students through — would it be helpful if I show you the details of how our program works?"</div>
+  </div>
+
+  <!-- ===== PAGE 9: THE HYBRID PITCH ===== -->
+  <div class="section-block">
+    <div class="section-title">☐ Page 9 — The Hybrid Pitch</div>
+
+    <div class="script-line">"So here's how the program works…" [PULL UP AKMS CLOSE SLIDES]</div>
+    <div class="note-box">NOTE: Sell your heart out. GET EXCITED AND PASSIONATE!</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Does that sound like what you're looking for?</div>
+      <textarea class="answer-field" id="q_soundright" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="script-line">"Ok awesome! So where would you like to go from here?"</div>
+    <div class="note-box">NOTE: They should ask you how much it is.</div>
+    <div class="script-line">"So here's the deal… To work with you in the Master Club for the next 12 months, the investment is just 4 payments of $1,500 — or you can save $1,000 by doing one payment of $5,000."</div>
+    <div class="note-box" style="background:#fff0f0; border-color:#c0392b; color:#c0392b;"><strong>SHUT UP. Wait for them to speak first. Don't rush on. Spend time here figuring out how they could make this work.</strong></div>
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ================ LIVE SUMMARY PAGE ================== -->
+  <!-- ===================================================== -->
+
+  <div class="summary-wrapper">
+
+    <div class="summary-header">
+      <div>
+        <h2>📊 LIVE CALL SUMMARY</h2>
+        <div style="font-size:12px; color:#aab; margin-top:4px;">Auto-updates as you fill in the form above</div>
+      </div>
+      <div class="meta">
+        Rep: <span id="sum_rep">—</span><br>
+        Date: <span id="sum_date">—</span><br>
+        Prospect: <span id="sum_prospect">—</span>
+      </div>
+    </div>
+
+    <div class="recap-banner">⭐ RECAP PAGE — USE THIS FOR YOUR PAGE 7 SUMMARY ⭐</div>
+
+    <div class="summary-body">
+
+      <!-- INTRO -->
+      <div class="sum-section">
+        <div class="sum-section-header" style="background:#f0f4ff; color:#1a1a2e;">
+          <div class="sum-badge" style="background:#1a1a2e; font-size:9px;">INT</div>
+          INTRO — Opening Details
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Zooming in from?</span><span class="sum-item-answer" id="sum_q_zooming">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Been there long?</span><span class="sum-item-answer" id="sum_q_longtime">—</span></div>
+        </div>
+      </div>
+
+      <!-- PAIN -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-pain">
+          <div class="sum-badge">P</div>
+          PAIN — What's hurting them
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">How long playing piano?</span><span class="sum-item-answer" id="sum_p_howlong">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">How strong is their ear?</span><span class="sum-item-answer" id="sum_p_ear">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Tried all keys / what happens?</span><span class="sum-item-answer" id="sum_p_allkeys">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Biggest challenge?</span><span class="sum-item-answer" id="sum_p_bigchallenge">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Results last 12 months?</span><span class="sum-item-answer" id="sum_p_12months">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Embellishments they can add?</span><span class="sum-item-answer" id="sum_q_embellish">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">EMOTION #1 — Impact on them?</span><span class="sum-item-answer" id="sum_p_emotion1">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">EMOTION #2 — Tough spot emotionally?</span><span class="sum-item-answer" id="sum_p_emotion2">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">What's keeping them stuck?</span><span class="sum-item-answer" id="sum_p_keepingfrom">—</span></div>
+        </div>
+      </div>
+
+      <!-- TRIED -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-tried">
+          <div class="sum-badge">T</div>
+          TRIED — What hasn't worked
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Musical background?</span><span class="sum-item-answer" id="sum_t_background">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Attempted By Ear / what went wrong?</span><span class="sum-item-answer" id="sum_t_attempted">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">How long trying?</span><span class="sum-item-answer" id="sum_t_howlong">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Other programs tried?</span><span class="sum-item-answer" id="sum_t_programs">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Why didn't they work?</span><span class="sum-item-answer" id="sum_t_whydidntwork">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Tried to fix issue with?</span><span class="sum-item-answer" id="sum_t_triedtofix">—</span></div>
+        </div>
+      </div>
+
+      <!-- NEED -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-need">
+          <div class="sum-badge">N</div>
+          NEED — Their goals & wants
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">What shifted recently?</span><span class="sum-item-answer" id="sum_n_shifted">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Why is it important?</span><span class="sum-item-answer" id="sum_n_important">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">6–12 month goal?</span><span class="sum-item-answer" id="sum_goal_6to12">—</span></div>
+        </div>
+      </div>
+
+      <!-- ISSUE -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-issue">
+          <div class="sum-badge">ISS</div>
+          ISSUE — Core problem statement
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Main issue is…</span><span class="sum-item-answer" id="sum_issue_main">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Also stated…</span><span class="sum-item-answer" id="sum_issue_aside">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Recap issue…</span><span class="sum-item-answer" id="sum_issue_recap">—</span></div>
+        </div>
+      </div>
+
+      <!-- GOAL -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-goal">
+          <div class="sum-badge">GOL</div>
+          GOAL — What they want to achieve
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Keeping them from…</span><span class="sum-item-answer" id="sum_goal_keepingfrom">—</span></div>
+        </div>
+      </div>
+
+      <!-- EMOTION -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-emotion">
+          <div class="sum-badge">EMO</div>
+          EMOTIONS — Feelings to reference
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Emotion #1</span><span class="sum-item-answer" id="sum_emotion1">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Emotion #2</span><span class="sum-item-answer" id="sum_emotion2">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Causing…</span><span class="sum-item-answer" id="sum_emotion_causing">—</span></div>
+        </div>
+      </div>
+
+      <!-- SPOUSE -->
+      <div class="sum-section">
+        <div class="sum-section-header sh-spouse">
+          <div class="sum-badge">SP</div>
+          SPOUSE / Support
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Spouse supportive?</span><span class="sum-item-answer" id="sum_spouse_supportive">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Aware of the struggle?</span><span class="sum-item-answer" id="sum_spouse_aware">—</span></div>
+        </div>
+      </div>
+
+      <!-- NOW OR LATER -->
+      <div class="sum-section">
+        <div class="sum-section-header" style="background:#fff0f0; color:#c0392b;">
+          <div class="sum-badge" style="background:#c0392b; font-size:9px;">NOW</div>
+          NOW OR LATER — Their Commitment Answer
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Now or next year?</span><span class="sum-item-answer" id="sum_now_or_later">—</span></div>
+        </div>
+      </div>
+
+      <!-- RECAP SCRIPT BOX -->
+      <div class="recap-script-box">
+        <strong>🎯 YOUR PAGE 7 RECAP SCRIPT — READ THIS OUT LOUD</strong>
+        <div style="margin-bottom:10px; color:#fff;">"[<span id="sum_recap_name" style="color:#f7c948;">NAME</span>], I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'RE FEELING:</span><br><span id="sum_recap_feeling" style="color:#fff; font-style:italic;">— fill in Pain answers above —</span></div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'VE TRIED:</span><br><span id="sum_recap_tried" style="color:#fff; font-style:italic;">— fill in Tried answers above —</span></div>
+        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">WHAT YOU REALLY NEED IS:</span><br><span id="sum_recap_need" style="color:#fff; font-style:italic;">— fill in Need answers above —</span></div>
+        <div style="color:#aaa; font-size:12px; margin-top:10px; border-top:1px solid #333; padding-top:10px;">"Is that about right?" — [WAIT FOR A YES]</div>
+        <div style="margin-top:8px;"><span style="color:#f7c948; font-weight:700;">THEY SAID (Now or Later):</span> <span id="sum_recap_nowlater" style="color:#fff;">—</span></div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button class="submit-btn" onclick="submitToSheets()">✅ SUBMIT CALL — SEND TO GOOGLE SHEETS</button>
+      <div class="success-msg" id="successMsg">✅ Call submitted successfully! Data saved to Google Sheets.</div>
+      <div class="error-msg" id="errorMsg">⚠️ Submission failed. Please check your connection and try again.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+
+// Map form field IDs to summary display IDs
+const fieldMap = [
+  ['q_zooming',        'sum_q_zooming'],
+  ['q_longtime',       'sum_q_longtime'],
+  ['p_howlong',        'sum_p_howlong'],
+  ['p_ear',            'sum_p_ear'],
+  ['p_allkeys',        'sum_p_allkeys'],
+  ['p_whathappens',    'sum_p_whathappens'],
+  ['p_bigchallenge',   'sum_p_bigchallenge'],
+  ['p_12months',       'sum_p_12months'],
+  ['q_embellish',      'sum_q_embellish'],
+  ['p_emotion1',       'sum_p_emotion1'],
+  ['p_emotion2',       'sum_p_emotion2'],
+  ['p_keepingfrom',    'sum_p_keepingfrom'],
+  ['t_background',     'sum_t_background'],
+  ['t_attempted',      'sum_t_attempted'],
+  ['t_howlong',        'sum_t_howlong'],
+  ['t_programs',       'sum_t_programs'],
+  ['t_whydidntwork',   'sum_t_whydidntwork'],
+  ['t_triedtofix',     'sum_t_triedtofix'],
+  ['n_shifted',        'sum_n_shifted'],
+  ['n_important',      'sum_n_important'],
+  ['goal_6to12',       'sum_goal_6to12'],
+  ['issue_main',       'sum_issue_main'],
+  ['issue_aside',      'sum_issue_aside'],
+  ['issue_recap',      'sum_issue_recap'],
+  ['goal_keepingfrom', 'sum_goal_keepingfrom'],
+  ['p_emotion1',       'sum_emotion1'],
+  ['p_emotion2',       'sum_emotion2'],
+  ['emotion_causing',  'sum_emotion_causing'],
+  ['spouse_supportive','sum_spouse_supportive'],
+  ['spouse_aware',     'sum_spouse_aware'],
+  ['q_now_or_later',   'sum_now_or_later'],
+];
+
+// ── Helper: get value or empty string
+function val(id) {
+  var el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// ── Helper: set text of summary span
+function setSum(id, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text || '—';
+  if (text) { el.classList.remove('empty-val'); }
+  else { el.classList.add('empty-val'); }
+}
+
+// ── AUTO-POPULATE: MAIN ISSUE (from p_bigchallenge + issue_aside)
+function autoPopulateMainIssue() {
+  var c1 = val('p_bigchallenge');
+  var c2 = val('issue_aside');
+  var combined = '';
+  if (c1 && c2) { combined = c1 + '\n─────────────\n' + c2; }
+  else if (c1)  { combined = c1; }
+  else if (c2)  { combined = c2; }
+  var mainIssueEl = document.getElementById('issue_main');
+  if (mainIssueEl) mainIssueEl.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: 12 MONTHS inline display
+function autoPopulate12Months() {
+  var v = val('p_12months');
+  var spans = ['auto_12months', 'auto_12months_2'];
+  spans.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = v || '___';
+  });
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: ISSUE RECAP (from issue_main)
+function autoPopulateIssueRecap() {
+  var v = val('issue_main');
+  var el = document.getElementById('issue_recap');
+  if (el && el.dataset.manualEdit !== 'true') el.value = v;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: GOAL keeping from (from all N fields)
+function autoPopulateGoal() {
+  var parts = [];
+  var nFields = ['n_shifted', 'n_important', 'goal_6to12'];
+  nFields.forEach(function(id) {
+    var v = val(id);
+    if (v) parts.push(v);
+  });
+  var combined = parts.join('\n─────────────\n');
+  var el = document.getElementById('goal_keepingfrom');
+  if (el && el.dataset.manualEdit !== 'true') el.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: EMOTION causing (from emotion1 + emotion2)
+function autoPopulateEmotion() {
+  var e1 = val('p_emotion1');
+  var e2 = val('p_emotion2');
+  var combined = '';
+  if (e1 && e2) { combined = 'Emotion #1: ' + e1 + '\n─────────────\nEmotion #2: ' + e2; }
+  else if (e1)  { combined = e1; }
+  else if (e2)  { combined = e2; }
+  var el = document.getElementById('emotion_causing');
+  if (el && el.dataset.manualEdit !== 'true') el.value = combined;
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP FEELING (all P fields)
+function autoPopulateRecapFeeling() {
+  var pFields = [
+    {id:'p_howlong',      label:'Playing for'},
+    {id:'p_ear',          label:'Ear strength'},
+    {id:'p_allkeys',      label:'Tried all keys / what happens'},
+    {id:'p_bigchallenge', label:'Biggest challenge'},
+    {id:'p_12months',     label:'Last 12 months'},
+    {id:'p_emotion1',     label:'Emotion #1'},
+    {id:'p_emotion2',     label:'Emotion #2'},
+    {id:'p_keepingfrom',  label:'Keeping them from'},
+    {id:'q_embellish',    label:'Embellishments'},
+  ];
+  var parts = [];
+  pFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_feeling');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP TRIED (all T fields)
+function autoPopulateRecapTried() {
+  var tFields = [
+    {id:'t_background',   label:'Background'},
+    {id:'t_attempted',    label:'Attempted by ear / what went wrong'},
+    {id:'t_howlong',      label:'How long trying'},
+    {id:'t_programs',     label:'Other programs'},
+    {id:'t_whydidntwork', label:'Why didn\'t work'},
+    {id:'t_triedtofix',   label:'Tried to fix with'},
+  ];
+  var parts = [];
+  tFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_tried');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
+// ── AUTO-POPULATE: RECAP NEED (all N fields)
+function autoPopulateRecapNeed() {
+  var nFields = [
+    {id:'n_shifted',    label:'What shifted'},
+    {id:'n_important',  label:'Why important'},
+    {id:'goal_6to12',   label:'6-12 month goal'},
+  ];
+  var parts = [];
+  nFields.forEach(function(f) {
+    var v = val(f.id);
+    if (v) parts.push('• ' + f.label + ': ' + v);
+  });
+  var el = document.getElementById('recap_need');
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
+  updateSummary();
+}
+
+function updateSummary() {
+  // Header meta
+  setSum('sum_rep',      val('repName'));
+  setSum('sum_date',     val('callDate'));
+  setSum('sum_prospect', val('prospectName'));
+  document.getElementById('sum_rep').textContent      = val('repName')      || '—';
+  document.getElementById('sum_date').textContent     = val('callDate')     || '—';
+  document.getElementById('sum_prospect').textContent = val('prospectName') || '—';
+
+  // Update all mapped fields
+  fieldMap.forEach(function(pair) {
+    var inputEl  = document.getElementById(pair[0]);
+    var outputEl = document.getElementById(pair[1]);
+    if (inputEl && outputEl) {
+      var v = inputEl.value.trim();
+      outputEl.textContent = v || '—';
+      if (v) { outputEl.classList.remove('empty-val'); }
+      else   { outputEl.classList.add('empty-val'); }
+    }
+  });
+
+  // Update recap script box live display
+  var name = val('prospectName');
+  var recapName = document.getElementById('sum_recap_name');
+  if (recapName) recapName.textContent = name || 'NAME';
+
+  var recapFeeling = document.getElementById('sum_recap_feeling');
+  if (recapFeeling) {
+    var rf = val('recap_feeling');
+    recapFeeling.textContent = rf || '— fill in Pain answers above —';
+  }
+  var recapTried = document.getElementById('sum_recap_tried');
+  if (recapTried) {
+    var rt = val('recap_tried');
+    recapTried.textContent = rt || '— fill in Tried answers above —';
+  }
+  var recapNeed = document.getElementById('sum_recap_need');
+  if (recapNeed) {
+    var rn = val('recap_need');
+    recapNeed.textContent = rn || '— fill in Need answers above —';
+  }
+  var recapNowLater = document.getElementById('sum_recap_nowlater');
+  if (recapNowLater) {
+    recapNowLater.textContent = val('q_now_or_later') || '—';
+  }
+
+  // Trigger all auto-populations
+  autoPopulate12Months();
+}
+
+// ── DEBOUNCE: wait 300ms after typing stops before running auto-populate
+function debounce(fn, delay) {
+  var timer;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(fn, delay);
+  };
+}
+
+// Mark fields as manually edited so auto-populate stops overwriting
+['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', function() {
+      this.dataset.manualEdit = 'true';
+    });
+  }
+});
+
+// Hook up N fields to trigger goal auto-populate (debounced)
+['n_shifted','n_important','goal_6to12'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateGoal(); autoPopulateRecapNeed(); }, 300));
+});
+
+// Hook up P fields to trigger recap feeling auto-populate (debounced)
+['p_howlong','p_ear','p_allkeys','p_whathappens','p_bigchallenge','p_12months','p_emotion1','p_emotion2','p_keepingfrom','q_embellish'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapFeeling(); autoPopulateEmotion(); }, 300));
+});
+
+// Hook up T fields to trigger recap tried auto-populate (debounced)
+['t_background','t_attempted','t_wrongwhat','t_howlong','t_programs','t_whydidntwork','t_triedtofix'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapTried(); }, 300));
+});
+
+// Hook up issue fields to trigger main issue auto-populate (debounced)
+['p_bigchallenge','issue_aside'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateMainIssue(); }, 300));
+});
+
+// Hook up issue_main to trigger issue_recap auto-populate (debounced)
+var issueMainEl = document.getElementById('issue_main');
+if (issueMainEl) issueMainEl.addEventListener('input', debounce(function() { autoPopulateIssueRecap(); }, 300));
+
+// Set today's date as default
+window.onload = function() {
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('callDate').value = today;
+  updateSummary();
+};
+
+// ===== GOOGLE SHEETS SUBMISSION =====
+// REPLACE THIS URL with the Web App URL from your Google Apps Script deployment
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqYdPfwu0X2gp-ZbFtk29Fq26jOKI5Gp_09h9Gqex0p-4EDqFxxPuZQxnDdQyku9eS2w/exec';
+
+function submitToSheets() {
+  var btn = document.querySelector('.submit-btn');
+  btn.textContent = '⏳ Submitting...';
+  btn.disabled = true;
+
+  var data = {
+    prospectName:     document.getElementById('prospectName').value,
+    prospectLevel:    document.getElementById('prospectLevel').value,
+    callDate:         document.getElementById('callDate').value,
+    repName:          document.getElementById('repName').value,
+    q_zooming:        document.getElementById('q_zooming').value,
+    q_longtime:       document.getElementById('q_longtime').value,
+    whatTheyWant:     document.getElementById('whatTheyWant').value,
+    p_howlong:        document.getElementById('p_howlong').value,
+    p_ear:            document.getElementById('p_ear').value,
+    p_allkeys:        document.getElementById('p_allkeys').value,
+    p_whathappens:    document.getElementById('p_whathappens').value,
+    p_bigchallenge:   document.getElementById('p_bigchallenge').value,
+    p_12months:       document.getElementById('p_12months').value,
+    p_emotion1:       document.getElementById('p_emotion1').value,
+    p_emotion2:       document.getElementById('p_emotion2').value,
+    p_keepingfrom:    document.getElementById('p_keepingfrom').value,
+    t_background:     document.getElementById('t_background').value,
+    t_attempted:      document.getElementById('t_attempted').value,
+    t_wrongwhat:      document.getElementById('t_wrongwhat').value,
+    t_howlong:        document.getElementById('t_howlong').value,
+    t_programs:       document.getElementById('t_programs').value,
+    t_whydidntwork:   document.getElementById('t_whydidntwork').value,
+    t_triedtofix:     document.getElementById('t_triedtofix').value,
+    n_shifted:        document.getElementById('n_shifted').value,
+    n_important:      document.getElementById('n_important').value,
+    goal_6to12:       document.getElementById('goal_6to12').value,
+    issue_main:       document.getElementById('issue_main').value,
+    issue_aside:      document.getElementById('issue_aside').value,
+    issue_recap:      document.getElementById('issue_recap').value,
+    goal_keepingfrom: document.getElementById('goal_keepingfrom').value,
+    emotion_causing:  document.getElementById('emotion_causing').value,
+    spouse_supportive:document.getElementById('spouse_supportive').value,
+    spouse_aware:     document.getElementById('spouse_aware').value,
+    recap_feeling:    document.getElementById('recap_feeling').value,
+    recap_tried:      document.getElementById('recap_tried').value,
+    recap_need:       document.getElementById('recap_need').value,
+    q_embellish:      document.getElementById('q_embellish').value,
+    q_now_or_later:   document.getElementById('q_now_or_later').value,
+  };
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(function() {
+    btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
+    btn.disabled = false;
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'none';
+  })
+  .catch(function() {
+    btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
+    btn.disabled = false;
+    document.getElementById('errorMsg').style.display = 'block';
+    document.getElementById('successMsg').style.display = 'none';
+  });
+}
+</script>
+
+</body>
+</html>
