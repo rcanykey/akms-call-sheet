@@ -450,13 +450,6 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="section-title">☐ Page 2 — The Detective: Uncover the Problem</div>
     <div class="note-box">NOTE: Lots of questions. Minimal talking. Record calls for training purposes.</div>
 
-    <div class="script-line">"So with that being said, maybe we could start with — what was it specifically that made you think… I need to book an appointment with these guys?"</div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> What made them book this call?</div>
-      <textarea class="answer-field" id="q_book" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
     <div class="section-title" style="font-size:13px; margin-top:20px;">Basic Line of Questioning</div>
 
     <div class="q-row">
@@ -470,45 +463,30 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> Do you know your Major, Minor and Diminished Chords?</div>
-      <textarea class="answer-field" id="q_chords" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> How strong would you say your Musical Ear is?</div>
       <textarea class="answer-field p-field" id="p_ear" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> Have you attempted to figure out songs on your own By Ear before?</div>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> <span class="tag tag-p">P</span> Have you attempted to figure out songs By Ear before — and if so, what went wrong?</div>
       <textarea class="answer-field t-field" id="t_attempted" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> What happened — what went wrong?</div>
-      <textarea class="answer-field t-field" id="t_wrongwhat" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Have you attempted to play songs you know in All Keys?</div>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Have you tried playing songs in all keys — and what happens when you try?</div>
       <textarea class="answer-field p-field" id="p_allkeys" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> What happens when you do?</div>
-      <textarea class="answer-field p-field" id="p_whathappens" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">Isolate the Big Problem</div>
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> Got it, so… what would you say is the biggest challenge you have right now, or at least, what's not working to the level you feel like it should?</div>
-      <textarea class="answer-field p-field" id="p_bigchallenge" placeholder="Answer..." oninput="autoPopulateMainIssue()" rows="2"></textarea>
+      <textarea class="answer-field p-field" id="p_bigchallenge" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> <span class="tag tag-issue">ISSUE</span> And aside from that, is there any other challenge or roadblock that's in the way right now?</div>
-      <textarea class="answer-field issue-field" id="issue_aside" placeholder="Answer..." oninput="autoPopulateMainIssue()" rows="2"></textarea>
+      <textarea class="answer-field issue-field" id="issue_aside" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
@@ -527,13 +505,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="section-title">☐ Page 3 — Get Them to Say Their Results Out Loud</div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> Ok, great… In the last 6 months… how many songs were you able to play at the level that you wanted?</div>
-      <textarea class="answer-field" id="q_6months" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Got it. Now, what about the last 12 months?</div>
-      <textarea class="answer-field p-field" id="p_12months" placeholder="Answer..." oninput="autoPopulate12Months()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> In the last 12 months — how many songs were you able to play at the level you wanted?</div>
+      <textarea class="answer-field p-field" id="p_12months" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="q-row">
@@ -541,28 +514,13 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> How many keys can you play that song(s) in, specifically?</div>
-      <textarea class="answer-field" id="q_howmanykeys" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> And out of those, how many can you add embellishments to them?</div>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> How many keys can you play those songs in — and out of those, how many can you add embellishments to?</div>
       <textarea class="answer-field p-field" id="q_embellish" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> Did you think that [their background / what they tried] would enable you to play By Ear and in Any Key?</div>
-      <textarea class="answer-field" id="q_didyouthink" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="script-line">Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right? <em>Yikes, ok. We need to fix this pretty soon then.</em></div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">☐ Pain Amplification Questions</div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> Are these results pretty typical? Has the past few years been a similar story?</div>
-      <textarea class="answer-field" id="q_typical" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> How long exactly have you been trying?</div>
@@ -605,18 +563,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> So what are your musical goals for the next 6–12 months? Let's say you found the right method that worked — what would you want to achieve?</div>
-      <textarea class="answer-field goal-field" id="goal_6to12" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> How did you come up with that goal?</div>
-      <textarea class="answer-field" id="q_goalorigin" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> Why is it important to you?</div>
-      <textarea class="answer-field n-field" id="n_important" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> What are your musical goals for the next 6–12 months — and why does that matter to you personally?</div>
+      <textarea class="answer-field n-field" id="goal_6to12" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">Summary / Recap Statement</div>
@@ -694,12 +642,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> I also noticed on your form you said:</div>
-      <textarea class="answer-field" id="q_noticed" placeholder="What they said on the form..." oninput="updateSummary()" rows="2"></textarea>
-    </div>
-
-    <div class="q-row">
-      <div class="q-label"><input type="checkbox"> Oh and by the way — not a question, just a quick statement… I did also notice where you said: <input type="text" class="write-in" id="q_noticedspecific" placeholder="write what you noticed here..." oninput="updateSummary()"> and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
+      <div class="q-label"><input type="checkbox"> I also noticed on your form you said: <input type="text" class="write-in" id="q_noticedspecific" placeholder="write the most powerful thing they said..." oninput="updateSummary()"> — and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
+      <textarea class="answer-field" id="q_noticed" placeholder="Their response..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
     <div class="script-line">[PAUSE FOR A RESPONSE]</div>
@@ -834,8 +778,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
         <div class="sum-items">
           <div class="sum-item"><span class="sum-item-label">How long playing piano?</span><span class="sum-item-answer" id="sum_p_howlong">—</span></div>
           <div class="sum-item"><span class="sum-item-label">How strong is their ear?</span><span class="sum-item-answer" id="sum_p_ear">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">Attempted songs in All Keys?</span><span class="sum-item-answer" id="sum_p_allkeys">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">What happens when they try?</span><span class="sum-item-answer" id="sum_p_whathappens">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Tried all keys / what happens?</span><span class="sum-item-answer" id="sum_p_allkeys">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Biggest challenge?</span><span class="sum-item-answer" id="sum_p_bigchallenge">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Results last 12 months?</span><span class="sum-item-answer" id="sum_p_12months">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Embellishments they can add?</span><span class="sum-item-answer" id="sum_q_embellish">—</span></div>
@@ -853,8 +796,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
         </div>
         <div class="sum-items">
           <div class="sum-item"><span class="sum-item-label">Musical background?</span><span class="sum-item-answer" id="sum_t_background">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">Attempted By Ear before?</span><span class="sum-item-answer" id="sum_t_attempted">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">What went wrong?</span><span class="sum-item-answer" id="sum_t_wrongwhat">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Attempted By Ear / what went wrong?</span><span class="sum-item-answer" id="sum_t_attempted">—</span></div>
           <div class="sum-item"><span class="sum-item-label">How long trying?</span><span class="sum-item-answer" id="sum_t_howlong">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Other programs tried?</span><span class="sum-item-answer" id="sum_t_programs">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Why didn't they work?</span><span class="sum-item-answer" id="sum_t_whydidntwork">—</span></div>
@@ -977,7 +919,6 @@ const fieldMap = [
   ['p_keepingfrom',    'sum_p_keepingfrom'],
   ['t_background',     'sum_t_background'],
   ['t_attempted',      'sum_t_attempted'],
-  ['t_wrongwhat',      'sum_t_wrongwhat'],
   ['t_howlong',        'sum_t_howlong'],
   ['t_programs',       'sum_t_programs'],
   ['t_whydidntwork',   'sum_t_whydidntwork'],
@@ -1076,8 +1017,7 @@ function autoPopulateRecapFeeling() {
   var pFields = [
     {id:'p_howlong',      label:'Playing for'},
     {id:'p_ear',          label:'Ear strength'},
-    {id:'p_allkeys',      label:'Tried all keys'},
-    {id:'p_whathappens',  label:'What happens'},
+    {id:'p_allkeys',      label:'Tried all keys / what happens'},
     {id:'p_bigchallenge', label:'Biggest challenge'},
     {id:'p_12months',     label:'Last 12 months'},
     {id:'p_emotion1',     label:'Emotion #1'},
@@ -1099,8 +1039,7 @@ function autoPopulateRecapFeeling() {
 function autoPopulateRecapTried() {
   var tFields = [
     {id:'t_background',   label:'Background'},
-    {id:'t_attempted',    label:'Attempted by ear'},
-    {id:'t_wrongwhat',    label:'What went wrong'},
+    {id:'t_attempted',    label:'Attempted by ear / what went wrong'},
     {id:'t_howlong',      label:'How long trying'},
     {id:'t_programs',     label:'Other programs'},
     {id:'t_whydidntwork', label:'Why didn\'t work'},
@@ -1183,6 +1122,15 @@ function updateSummary() {
   autoPopulate12Months();
 }
 
+// ── DEBOUNCE: wait 300ms after typing stops before running auto-populate
+function debounce(fn, delay) {
+  var timer;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(fn, delay);
+  };
+}
+
 // Mark fields as manually edited so auto-populate stops overwriting
 ['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need'].forEach(function(id) {
   var el = document.getElementById(id);
@@ -1193,27 +1141,33 @@ function updateSummary() {
   }
 });
 
-// Hook up N fields to trigger goal auto-populate
+// Hook up N fields to trigger goal auto-populate (debounced)
 ['n_shifted','n_important','goal_6to12'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) el.addEventListener('input', function() { autoPopulateGoal(); autoPopulateRecapNeed(); });
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateGoal(); autoPopulateRecapNeed(); }, 300));
 });
 
-// Hook up P fields to trigger recap feeling auto-populate
+// Hook up P fields to trigger recap feeling auto-populate (debounced)
 ['p_howlong','p_ear','p_allkeys','p_whathappens','p_bigchallenge','p_12months','p_emotion1','p_emotion2','p_keepingfrom','q_embellish'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) el.addEventListener('input', function() { autoPopulateRecapFeeling(); autoPopulateEmotion(); });
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapFeeling(); autoPopulateEmotion(); }, 300));
 });
 
-// Hook up T fields to trigger recap tried auto-populate
+// Hook up T fields to trigger recap tried auto-populate (debounced)
 ['t_background','t_attempted','t_wrongwhat','t_howlong','t_programs','t_whydidntwork','t_triedtofix'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) el.addEventListener('input', function() { autoPopulateRecapTried(); });
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapTried(); }, 300));
 });
 
-// Hook up issue_main to trigger issue_recap auto-populate
+// Hook up issue fields to trigger main issue auto-populate (debounced)
+['p_bigchallenge','issue_aside'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', debounce(function() { autoPopulateMainIssue(); }, 300));
+});
+
+// Hook up issue_main to trigger issue_recap auto-populate (debounced)
 var issueMainEl = document.getElementById('issue_main');
-if (issueMainEl) issueMainEl.addEventListener('input', function() { autoPopulateIssueRecap(); });
+if (issueMainEl) issueMainEl.addEventListener('input', debounce(function() { autoPopulateIssueRecap(); }, 300));
 
 // Set today's date as default
 window.onload = function() {
