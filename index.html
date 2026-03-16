@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AKMS Hybrid Push Call — V3 Smart Form</title>
+<title>AKMS Hybrid Push Call — V4 Smart Form</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; font-size: 15px; }
@@ -380,6 +380,20 @@ h1, h2, h3, h4 { line-height: 1.3; }
   .summary-body { padding: 16px; }
   .submit-section { padding: 16px; }
 }
+
+/* PRINT STYLES */
+@media print {
+  body { background: #fff; padding: 0; }
+  .form-wrapper > *:not(.summary-wrapper) { display: none !important; }
+  .summary-wrapper { margin-top: 0; box-shadow: none; }
+  .submit-section { display: none !important; }
+  .page-title { display: none !important; }
+  .prospect-bar { display: none !important; }
+  .recap-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sum-section-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .recap-script-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -392,7 +406,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
       <h1>📋 AKMS HYBRID PUSH CALL</h1>
       <div style="font-size:12px; color:#aab; margin-top:4px;">Sales Call Checklist — Smart Form</div>
     </div>
-    <div class="version">VERSION 3 — FINAL</div>
+    <div class="version">VERSION 4 — FINAL</div>
   </div>
 
   <!-- PROSPECT INFO BAR -->
@@ -422,11 +436,15 @@ h1, h2, h3, h4 { line-height: 1.3; }
       </div>
       <div>
         <label>📊 Application — Determination Score (/10)</label>
-        <input type="number" id="determinationScore" min="1" max="10" placeholder="e.g. 8" oninput="updateSummary()" style="font-size:16px; font-weight:700; color:#c0392b;">
+        <input type="number" id="determinationScore" min="1" max="10" placeholder="e.g. 8" style="font-size:16px; font-weight:700; color:#c0392b;">
+      </div>
+      <div style="grid-column: span 2;">
+        <label>🎯 Application — What They Want</label>
+        <input type="text" id="appWhatTheyWant" placeholder="e.g. Play any song by ear in any key..." style="width:100%; color:#c0392b; font-weight:600;">
       </div>
       <div style="grid-column: span 2;">
         <label>📝 Application — Most Powerful Thing They Said</label>
-        <input type="text" id="appPowerfulThing" placeholder="Type the most powerful thing from their application..." oninput="updateSummary()" style="width:100%;">
+        <input type="text" id="appPowerfulThing" placeholder="Type the most powerful thing from their application..." style="width:100%;">
       </div>
     </div>
   </div>
@@ -442,15 +460,10 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <p style="margin-bottom:10px;">Great, is it ok if we get started?</p>
 
-    <div class="script-line">"Okay [NAME], I want to be respectful of our time today, we have about 45 minutes or so to see if we can help you…"</div>
-
-    <div class="q-row">
-      <div class="q-label">What they want:</div>
-      <input type="text" class="answer-field" id="whatTheyWant" placeholder="Insert what they want..." oninput="updateSummary()">
-    </div>
+    <div class="script-line">"Okay <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, I want to be respectful of our time today, we have about 45 minutes or so to see if we can help you…"</div>
 
     <div class="script-line">"So in order to determine if we can help you do that, I'm going to ask you some questions to find out what the problems are so we can fix them… and I'll be writing down my notes."</div>
-    <div class="script-line">"Once we find out what is keeping you from [WHAT THEY WANT], I'll share with you EXACTLY what you need to do to fix it… If you feel like you're going to want more help from me, I'll provide some options for you. Sound good?"</div>
+    <div class="script-line">"Once we find out what is keeping you from <strong><span id="auto_what_they_want" style="color:#c0392b;">___</span></strong>, I'll share with you EXACTLY what you need to do to fix it… If you feel like you're going to want more help from me, I'll provide some options for you. Sound good?"</div>
   </div>
 
   <!-- ===== PAGE 2: THE DETECTIVE ===== -->
@@ -467,7 +480,12 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> What's your musical background?</div>
-      <textarea class="answer-field t-field" id="t_background" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+      <textarea class="answer-field t-field" id="t_background" rows="2" placeholder="Answer..."></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> Do you know your Major, Minor and Diminished Chords?</div>
+      <textarea class="answer-field" id="q_chords" rows="2" placeholder="Answer..."></textarea>
     </div>
 
     <div class="q-row">
@@ -611,7 +629,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
       <textarea class="answer-field p-field" id="p_keepingfrom" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
-    <div class="script-line">"This all makes sense to me [NAME]… You're certainly not the first person to be struggling with all this…"</div>
+    <div class="script-line">"This all makes sense to me <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>… You're certainly not the first person to be struggling with all this…"</div>
     <div class="script-line">"In fact, do you mind if I go off on a little tangent real quick, because it might be helpful for you to know a bit of what's going on behind the scenes as to why this Advanced Playing By Ear is actually a little harder right now — is that ok?"</div>
 
     <div class="talking-points">
@@ -668,7 +686,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
   <div class="section-block">
     <div class="section-title">☐ Page 7 — Wrap It Up</div>
 
-    <div class="script-line">"[NAME], I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
+    <div class="script-line">"<strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
     <div class="note-box">NOTE: Give a good 30–60 second summary of everything they've said. Make them feel truly heard and understood. USE THE RECAP SUMMARY BELOW ↓</div>
 
     <div class="q-row">
@@ -882,22 +900,14 @@ h1, h2, h3, h4 { line-height: 1.3; }
         </div>
       </div>
 
-      <!-- RECAP SCRIPT BOX -->
-      <div class="recap-script-box">
-        <strong>🎯 YOUR PAGE 7 RECAP SCRIPT — READ THIS OUT LOUD</strong>
-        <div style="margin-bottom:10px; color:#fff;">"[<span id="sum_recap_name" style="color:#f7c948;">NAME</span>], I really appreciate you being so honest with me. So here's what I'm hearing…"</div>
-        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'RE FEELING:</span><br><span id="sum_recap_feeling" style="color:#fff; font-style:italic;">— fill in Pain answers above —</span></div>
-        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">YOU'VE TRIED:</span><br><span id="sum_recap_tried" style="color:#fff; font-style:italic;">— fill in Tried answers above —</span></div>
-        <div style="margin-bottom:8px;"><span style="color:#f7c948; font-weight:700;">WHAT YOU REALLY NEED IS:</span><br><span id="sum_recap_need" style="color:#fff; font-style:italic;">— fill in Need answers above —</span></div>
-        <div style="color:#aaa; font-size:12px; margin-top:10px; border-top:1px solid #333; padding-top:10px;">"Is that about right?" — [WAIT FOR A YES]</div>
-        <div style="margin-top:8px;"><span style="color:#f7c948; font-weight:700;">THEY SAID (Now or Later):</span> <span id="sum_recap_nowlater" style="color:#fff;">—</span></div>
-      </div>
+
 
     </div>
 
     <!-- SUBMIT -->
     <div class="submit-section">
       <button class="submit-btn" onclick="submitToSheets()">✅ SUBMIT CALL — SEND TO GOOGLE SHEETS</button>
+      <button class="submit-btn no-print" onclick="window.print()" style="margin-top:12px; background:linear-gradient(135deg,#1a1a2e,#16213e); color:#f7c948;">🖨️ PRINT / SAVE SUMMARY AS PDF</button>
       <div class="success-msg" id="successMsg">✅ Call submitted successfully! Data saved to Google Sheets.</div>
       <div class="error-msg" id="errorMsg">⚠️ Submission failed. Please check your connection and try again.</div>
     </div>
@@ -915,7 +925,6 @@ const fieldMap = [
   ['p_howlong',        'sum_p_howlong'],
   ['p_ear',            'sum_p_ear'],
   ['p_allkeys',        'sum_p_allkeys'],
-  ['p_whathappens',    'sum_p_whathappens'],
   ['p_bigchallenge',   'sum_p_bigchallenge'],
   ['p_12months',       'sum_p_12months'],
   ['q_embellish',      'sum_q_embellish'],
@@ -929,9 +938,7 @@ const fieldMap = [
   ['t_whydidntwork',   'sum_t_whydidntwork'],
   ['t_triedtofix',     'sum_t_triedtofix'],
   ['n_shifted',        'sum_n_shifted'],
-  ['n_important',      'sum_n_important'],
   ['goal_6to12',       'sum_goal_6to12'],
-  ['issue_main',       'sum_issue_main'],
   ['issue_aside',      'sum_issue_aside'],
   ['issue_recap',      'sum_issue_recap'],
   ['goal_keepingfrom', 'sum_goal_keepingfrom'],
@@ -943,339 +950,259 @@ const fieldMap = [
   ['q_now_or_later',   'sum_now_or_later'],
 ];
 
-// ── Helper: get value or empty string
+// ── DEBOUNCE helper
+function debounce(fn, delay) {
+  var timer;
+  return function() { clearTimeout(timer); timer = setTimeout(fn, delay); };
+}
+
+// ── Get field value
 function val(id) {
   var el = document.getElementById(id);
   return el ? el.value.trim() : '';
 }
 
-// ── Helper: set text of summary span
-function setSum(id, text) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = text || '—';
-  if (text) { el.classList.remove('empty-val'); }
-  else { el.classList.add('empty-val'); }
+// ── Get first name only from full name
+function firstName() {
+  var n = val('prospectName');
+  return n ? n.split(' ')[0] : '';
 }
 
-// ── AUTO-POPULATE: MAIN ISSUE (from p_bigchallenge + issue_aside) → writes to issue_recap on Page 4
+// ── Update all [NAME] placeholders in red throughout the form
+function updateNamePlaceholders() {
+  var fn = firstName();
+  document.querySelectorAll('.auto-name').forEach(function(el) {
+    el.textContent = fn || 'NAME';
+  });
+}
+
+// ── Auto-populate simple inline spans (12 months, determination, powerful thing, what they want)
+function autoPopulateInline() {
+  var v12 = val('p_12months');
+  ['auto_12months','auto_12months_2'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = v12 || '___';
+  });
+  var det = val('determinationScore');
+  var detEl = document.getElementById('auto_determination');
+  if (detEl) detEl.textContent = det || '___';
+  var pow = val('appPowerfulThing');
+  var powEl = document.getElementById('auto_powerful_thing');
+  if (powEl) powEl.textContent = pow || '___';
+  // What They Want → Page 1 script line
+  var wtw = val('appWhatTheyWant');
+  var wtwEl = document.getElementById('auto_what_they_want');
+  if (wtwEl) wtwEl.textContent = wtw || '___';
+}
+
+// ── Auto-populate MAIN ISSUE → issue_recap
 function autoPopulateMainIssue() {
   var c1 = val('p_bigchallenge');
   var c2 = val('issue_aside');
-  var combined = '';
-  if (c1 && c2) { combined = c1 + '\n─────────────\n' + c2; }
-  else if (c1)  { combined = c1; }
-  else if (c2)  { combined = c2; }
-  var mainIssueEl = document.getElementById('issue_main');
-  if (mainIssueEl) mainIssueEl.value = combined;
-  var recapEl = document.getElementById('issue_recap');
-  if (recapEl && recapEl.dataset.manualEdit !== 'true') {
-    recapEl.value = combined;
-  }
+  var combined = c1 && c2 ? c1 + '\n─────────────\n' + c2 : (c1 || c2);
+  var hidden = document.getElementById('issue_main');
+  if (hidden) hidden.value = combined;
+  var recap = document.getElementById('issue_recap');
+  if (recap && recap.dataset.manualEdit !== 'true') recap.value = combined;
 }
 
-// ── AUTO-POPULATE: 12 MONTHS inline display
-function autoPopulate12Months() {
-  var v = val('p_12months');
-  var spans = ['auto_12months', 'auto_12months_2'];
-  spans.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = v || '___';
-  });
-  updateSummary();
-}
-
-
-
-// ── AUTO-POPULATE: GOAL keeping from (from all N fields)
+// ── Auto-populate GOAL keeping from (What They Want + N fields)
 function autoPopulateGoal() {
-  var parts = [];
-  var nFields = ['n_shifted', 'goal_6to12'];
-  nFields.forEach(function(id) {
-    var v = val(id);
-    if (v) parts.push(v);
-  });
-  var combined = parts.join('\n─────────────\n');
+  var parts = [val('appWhatTheyWant'), val('n_shifted'), val('goal_6to12')].filter(Boolean);
   var el = document.getElementById('goal_keepingfrom');
-  if (el && el.dataset.manualEdit !== 'true') el.value = combined;
+  if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n─────────────\n');
 }
 
-// ── AUTO-POPULATE: EMOTION causing (from emotion1 + emotion2)
+// ── Auto-populate EMOTION causing
 function autoPopulateEmotion() {
-  var e1 = val('p_emotion1');
-  var e2 = val('p_emotion2');
-  var combined = '';
-  if (e1 && e2) { combined = 'Emotion #1: ' + e1 + '\n─────────────\nEmotion #2: ' + e2; }
-  else if (e1)  { combined = e1; }
-  else if (e2)  { combined = e2; }
+  var e1 = val('p_emotion1'), e2 = val('p_emotion2');
+  var combined = e1 && e2 ? 'Emotion #1: ' + e1 + '\n─────────────\nEmotion #2: ' + e2 : (e1 || e2);
   var el = document.getElementById('emotion_causing');
   if (el && el.dataset.manualEdit !== 'true') el.value = combined;
 }
 
-// ── AUTO-POPULATE: RECAP FEELING (all P fields)
+// ── Auto-populate RECAP FEELING (P fields)
 function autoPopulateRecapFeeling() {
   var pFields = [
-    {id:'p_howlong',      label:'Playing for'},
-    {id:'p_ear',          label:'Ear strength'},
-    {id:'p_allkeys',      label:'Tried all keys / what happens'},
-    {id:'p_bigchallenge', label:'Biggest challenge'},
-    {id:'p_12months',     label:'Last 12 months'},
-    {id:'p_emotion1',     label:'Emotion #1'},
-    {id:'p_emotion2',     label:'Emotion #2'},
-    {id:'p_keepingfrom',  label:'Keeping them from'},
-    {id:'q_embellish',    label:'Embellishments'},
+    {id:'p_howlong',label:'Playing for'},{id:'p_ear',label:'Ear strength'},
+    {id:'p_allkeys',label:'Tried all keys'},{id:'p_bigchallenge',label:'Biggest challenge'},
+    {id:'p_12months',label:'Last 12 months'},{id:'p_emotion1',label:'Emotion #1'},
+    {id:'p_emotion2',label:'Emotion #2'},{id:'p_keepingfrom',label:'Keeping them from'},
+    {id:'q_embellish',label:'Embellishments'}
   ];
-  var parts = [];
-  pFields.forEach(function(f) {
-    var v = val(f.id);
-    if (v) parts.push('• ' + f.label + ': ' + v);
-  });
+  var parts = pFields.map(function(f){ var v=val(f.id); return v ? '• '+f.label+': '+v : ''; }).filter(Boolean);
   var el = document.getElementById('recap_feeling');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
 }
 
-// ── AUTO-POPULATE: RECAP TRIED (all T fields)
+// ── Auto-populate RECAP TRIED (T fields)
 function autoPopulateRecapTried() {
   var tFields = [
-    {id:'t_background',   label:'Background'},
-    {id:'t_attempted',    label:'Attempted by ear / what went wrong'},
-    {id:'t_howlong',      label:'How long trying'},
-    {id:'t_programs',     label:'Other programs'},
-    {id:'t_whydidntwork', label:'Why didn\'t work'},
-    {id:'t_triedtofix',   label:'Tried to fix with'},
+    {id:'t_background',label:'Background'},{id:'t_attempted',label:'Attempted by ear'},
+    {id:'t_howlong',label:'How long trying'},{id:'t_programs',label:'Other programs'},
+    {id:'t_whydidntwork',label:"Why didn't work"},{id:'t_triedtofix',label:'Tried to fix with'}
   ];
-  var parts = [];
-  tFields.forEach(function(f) {
-    var v = val(f.id);
-    if (v) parts.push('• ' + f.label + ': ' + v);
-  });
+  var parts = tFields.map(function(f){ var v=val(f.id); return v ? '• '+f.label+': '+v : ''; }).filter(Boolean);
   var el = document.getElementById('recap_tried');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
 }
 
-// ── AUTO-POPULATE: RECAP NEED (all N fields — n_important merged into goal_6to12)
+// ── Auto-populate RECAP NEED (What They Want + N fields)
 function autoPopulateRecapNeed() {
   var nFields = [
-    {id:'n_shifted',  label:'What shifted'},
-    {id:'goal_6to12', label:'Goals & why important'},
+    {id:'appWhatTheyWant', label:'What they want'},
+    {id:'n_shifted',       label:'What shifted'},
+    {id:'goal_6to12',      label:'Goals & why important'}
   ];
-  var parts = [];
-  nFields.forEach(function(f) {
-    var v = val(f.id);
-    if (v) parts.push('• ' + f.label + ': ' + v);
-  });
+  var parts = nFields.map(function(f){ var v=val(f.id); return v ? '• '+f.label+': '+v : ''; }).filter(Boolean);
   var el = document.getElementById('recap_need');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n');
-  // Also update the summary display span for recap_need
-  var sumEl = document.getElementById('sum_recap_need');
-  if (sumEl) sumEl.textContent = el && el.value ? el.value : '— fill in Need answers above —';
 }
 
-// ── AUTO-POPULATE: POWERFUL THING from top bar → Page 6
-function autoPopulatePowerfulThing() {
-  var v = val('appPowerfulThing');
-  var el = document.getElementById('auto_powerful_thing');
-  if (el) el.textContent = v || '___';
-}
-
-function updateSummary() {
+// ── MASTER UPDATE: runs all summary display updates (debounced — never blocks typing)
+var debouncedUpdate = debounce(function() {
   // Header meta
-  setSum('sum_rep',      val('repName'));
-  setSum('sum_date',     val('callDate'));
-  setSum('sum_prospect', val('prospectName'));
-  document.getElementById('sum_rep').textContent      = val('repName')      || '—';
-  document.getElementById('sum_date').textContent     = val('callDate')     || '—';
-  document.getElementById('sum_prospect').textContent = val('prospectName') || '—';
+  var rep = val('repName'), date = val('callDate'), prospect = val('prospectName');
+  var sumRep = document.getElementById('sum_rep'); if(sumRep) sumRep.textContent = rep || '—';
+  var sumDate = document.getElementById('sum_date'); if(sumDate) sumDate.textContent = date || '—';
+  var sumProspect = document.getElementById('sum_prospect'); if(sumProspect) sumProspect.textContent = prospect || '—';
 
-  // Update all mapped fields
+  // Call details in summary intro
+  var sumName2 = document.getElementById('sum_prospect_name'); if(sumName2) sumName2.textContent = prospect || '—';
+  var sumLevel = document.getElementById('sum_prospect_level'); if(sumLevel) sumLevel.textContent = val('prospectLevel') || '—';
+  var sumDate2 = document.getElementById('sum_call_date'); if(sumDate2) sumDate2.textContent = date || '—';
+  var sumRep2 = document.getElementById('sum_rep_name'); if(sumRep2) sumRep2.textContent = rep || '—';
+  var sumDet = document.getElementById('sum_determination'); if(sumDet) sumDet.textContent = val('determinationScore') || '—';
+
+  // All mapped fields
   fieldMap.forEach(function(pair) {
-    var inputEl  = document.getElementById(pair[0]);
-    var outputEl = document.getElementById(pair[1]);
-    if (inputEl && outputEl) {
-      var v = inputEl.value.trim();
-      outputEl.textContent = v || '—';
-      if (v) { outputEl.classList.remove('empty-val'); }
-      else   { outputEl.classList.add('empty-val'); }
+    var inp = document.getElementById(pair[0]);
+    var out = document.getElementById(pair[1]);
+    if (inp && out) {
+      var v = inp.value.trim();
+      out.textContent = v || '—';
+      v ? out.classList.remove('empty-val') : out.classList.add('empty-val');
     }
   });
 
-  // Update recap script box live display
-  var name = val('prospectName');
-  var recapName = document.getElementById('sum_recap_name');
-  if (recapName) recapName.textContent = name || 'NAME';
+  // Recap script box
+  var rn = document.getElementById('sum_recap_name'); if(rn) rn.textContent = firstName() || 'NAME';
+  var rf = document.getElementById('sum_recap_feeling'); if(rf) rf.textContent = val('recap_feeling') || '— fill in Pain answers above —';
+  var rt = document.getElementById('sum_recap_tried'); if(rt) rt.textContent = val('recap_tried') || '— fill in Tried answers above —';
+  var rneed = document.getElementById('sum_recap_need'); if(rneed) rneed.textContent = val('recap_need') || '— fill in Need answers above —';
+  var rnl = document.getElementById('sum_recap_nowlater'); if(rnl) rnl.textContent = val('q_now_or_later') || '—';
 
-  var recapFeeling = document.getElementById('sum_recap_feeling');
-  if (recapFeeling) {
-    var rf = val('recap_feeling');
-    recapFeeling.textContent = rf || '— fill in Pain answers above —';
-  }
-  var recapTried = document.getElementById('sum_recap_tried');
-  if (recapTried) {
-    var rt = val('recap_tried');
-    recapTried.textContent = rt || '— fill in Tried answers above —';
-  }
-  var recapNeed = document.getElementById('sum_recap_need');
-  if (recapNeed) {
-    var rn = val('recap_need');
-    recapNeed.textContent = rn || '— fill in Need answers above —';
-  }
-  var recapNowLater = document.getElementById('sum_recap_nowlater');
-  if (recapNowLater) {
-    recapNowLater.textContent = val('q_now_or_later') || '—';
-  }
+  // Inline auto-populates
+  autoPopulateInline();
+  updateNamePlaceholders();
 
-  // Trigger all auto-populations
-  autoPopulate12Months();
-  autoPopulateDetermination();
-  autoPopulatePowerfulThing();
-  autoPopulateRecapNeed();
+}, 400);
+
+// ── Lightweight instant update — only updates inline spans (no DOM-heavy work)
+// This fires immediately on every keystroke for the inline auto-populates
+// but summary redraw is debounced at 400ms
+function updateSummary() {
+  debouncedUpdate();
+}
+
+// ── Run all auto-populates (called on field blur or debounced input)
+var debouncedAutoFill = debounce(function() {
+  autoPopulateMainIssue();
   autoPopulateGoal();
   autoPopulateEmotion();
   autoPopulateRecapFeeling();
   autoPopulateRecapTried();
-  autoPopulateMainIssue();
-}
+  autoPopulateRecapNeed();
+}, 400);
 
-// ── AUTO-POPULATE: DETERMINATION SCORE into Page 6
-function autoPopulateDetermination() {
-  var v = val('determinationScore');
-  var el = document.getElementById('auto_determination');
-  if (el) el.textContent = v || '___';
-}
-
-// ── DEBOUNCE: wait 300ms after typing stops before running auto-populate
-function debounce(fn, delay) {
-  var timer;
-  return function() {
-    clearTimeout(timer);
-    timer = setTimeout(fn, delay);
-  };
-}
-
-// Mark fields as manually edited so auto-populate stops overwriting
+// ── Mark auto-populated fields as manually edited when user types in them
 ['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need'].forEach(function(id) {
   var el = document.getElementById(id);
-  if (el) {
-    el.addEventListener('input', function() {
-      this.dataset.manualEdit = 'true';
-    });
-  }
+  if (el) el.addEventListener('input', function() { this.dataset.manualEdit = 'true'; });
 });
 
-// Hook up N fields to trigger goal + recap need auto-populate (debounced)
-['n_shifted','goal_6to12'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateGoal(); autoPopulateRecapNeed(); }, 300));
+// ── Single delegated listener on the whole form — no inline oninput needed
+document.querySelector('.form-wrapper').addEventListener('input', function() {
+  debouncedUpdate();
+  debouncedAutoFill();
 });
 
-// Hook up powerful thing field (debounced)
-var powerfulEl = document.getElementById('appPowerfulThing');
-if (powerfulEl) powerfulEl.addEventListener('input', debounce(function() { autoPopulatePowerfulThing(); }, 300));
-
-// Hook up P fields to trigger recap feeling auto-populate (debounced)
-['p_howlong','p_ear','p_allkeys','p_bigchallenge','p_12months','p_keepingfrom','q_embellish'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapFeeling(); }, 300));
-});
-
-// Hook up EMOTION fields separately to ensure both always trigger emotion auto-populate (debounced)
-['p_emotion1','p_emotion2'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateEmotion(); autoPopulateRecapFeeling(); }, 300));
-});
-
-// Hook up T fields to trigger recap tried auto-populate (debounced)
-['t_background','t_attempted','t_wrongwhat','t_howlong','t_programs','t_whydidntwork','t_triedtofix'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateRecapTried(); }, 300));
-});
-
-// Hook up issue fields — both trigger autoPopulateMainIssue which writes directly to issue_recap (debounced)
-['p_bigchallenge','issue_aside'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (el) el.addEventListener('input', debounce(function() { autoPopulateMainIssue(); autoPopulateRecapFeeling(); }, 300));
-});
-
-// Hook up determination score (debounced)
-var detEl = document.getElementById('determinationScore');
-if (detEl) detEl.addEventListener('input', debounce(function() { autoPopulateDetermination(); }, 300));
-
-// Set today's date as default
+// ── Set today's date as default
 window.onload = function() {
   var today = new Date().toISOString().split('T')[0];
   document.getElementById('callDate').value = today;
-  updateSummary();
+  debouncedUpdate();
+  debouncedAutoFill();
 };
 
 // ===== GOOGLE SHEETS SUBMISSION =====
-// REPLACE THIS URL with the Web App URL from your Google Apps Script deployment
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqYdPfwu0X2gp-ZbFtk29Fq26jOKI5Gp_09h9Gqex0p-4EDqFxxPuZQxnDdQyku9eS2w/exec';
 
+function gv(id) {
+  var el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
 function submitToSheets() {
-  var btn = document.querySelector('.submit-btn');
+  var btns = document.querySelectorAll('.submit-btn');
+  var btn = btns[0];
   btn.textContent = '⏳ Submitting...';
   btn.disabled = true;
 
   var data = {
-    prospectName:     document.getElementById('prospectName').value,
-    prospectLevel:    document.getElementById('prospectLevel').value,
-    callDate:         document.getElementById('callDate').value,
-    repName:          document.getElementById('repName').value,
-    q_zooming:        document.getElementById('q_zooming').value,
-    q_longtime:       document.getElementById('q_longtime').value,
-    whatTheyWant:     document.getElementById('whatTheyWant').value,
-    p_howlong:        document.getElementById('p_howlong').value,
-    p_ear:            document.getElementById('p_ear').value,
-    p_allkeys:        document.getElementById('p_allkeys').value,
-    p_bigchallenge:   document.getElementById('p_bigchallenge').value,
-    p_12months:       document.getElementById('p_12months').value,
-    p_emotion1:       document.getElementById('p_emotion1').value,
-    p_emotion2:       document.getElementById('p_emotion2').value,
-    p_keepingfrom:    document.getElementById('p_keepingfrom').value,
-    t_background:     document.getElementById('t_background').value,
-    t_attempted:      document.getElementById('t_attempted').value,
-    t_howlong:        document.getElementById('t_howlong').value,
-    t_programs:       document.getElementById('t_programs').value,
-    t_whydidntwork:   document.getElementById('t_whydidntwork').value,
-    t_triedtofix:     document.getElementById('t_triedtofix').value,
-    n_shifted:        document.getElementById('n_shifted').value,
-    n_important:      document.getElementById('n_important').value,
-    goal_6to12:       document.getElementById('goal_6to12').value,
-    issue_main:       document.getElementById('issue_main').value,
-    issue_aside:      document.getElementById('issue_aside').value,
-    issue_recap:      document.getElementById('issue_recap').value,
-    goal_keepingfrom: document.getElementById('goal_keepingfrom').value,
-    emotion_causing:  document.getElementById('emotion_causing').value,
-    spouse_supportive:document.getElementById('spouse_supportive').value,
-    spouse_aware:     document.getElementById('spouse_aware').value,
-    recap_feeling:    document.getElementById('recap_feeling').value,
-    recap_tried:      document.getElementById('recap_tried').value,
-    recap_need:       document.getElementById('recap_need').value,
-    q_embellish:         document.getElementById('q_embellish').value,
-    q_now_or_later:      document.getElementById('q_now_or_later').value,
-    determinationScore:  document.getElementById('determinationScore').value,
-    q_determined:        document.getElementById('q_determined').value,
-    appPowerfulThing:    document.getElementById('appPowerfulThing').value,
+    prospectName:      gv('prospectName'),
+    prospectLevel:     gv('prospectLevel'),
+    callDate:          gv('callDate'),
+    repName:           gv('repName'),
+    determinationScore:gv('determinationScore'),
+    appWhatTheyWant:   gv('appWhatTheyWant'),
+    appPowerfulThing:  gv('appPowerfulThing'),
+    q_zooming:         gv('q_zooming'),
+    q_longtime:        gv('q_longtime'),
+    p_howlong:         gv('p_howlong'),
+    p_ear:             gv('p_ear'),
+    q_chords:          gv('q_chords'),
+    p_allkeys:         gv('p_allkeys'),
+    p_bigchallenge:    gv('p_bigchallenge'),
+    issue_aside:       gv('issue_aside'),
+    issue_recap:       gv('issue_recap'),
+    t_triedtofix:      gv('t_triedtofix'),
+    p_12months:        gv('p_12months'),
+    q_embellish:       gv('q_embellish'),
+    t_howlong:         gv('t_howlong'),
+    p_emotion1:        gv('p_emotion1'),
+    p_emotion2:        gv('p_emotion2'),
+    t_programs:        gv('t_programs'),
+    t_whydidntwork:    gv('t_whydidntwork'),
+    n_shifted:         gv('n_shifted'),
+    goal_6to12:        gv('goal_6to12'),
+    goal_keepingfrom:  gv('goal_keepingfrom'),
+    emotion_causing:   gv('emotion_causing'),
+    spouse_supportive: gv('spouse_supportive'),
+    spouse_aware:      gv('spouse_aware'),
+    p_keepingfrom:     gv('p_keepingfrom'),
+    t_background:      gv('t_background'),
+    t_attempted:       gv('t_attempted'),
+    q_determined:      gv('q_determined'),
+    q_now_or_later:    gv('q_now_or_later'),
+    recap_feeling:     gv('recap_feeling'),
+    recap_tried:       gv('recap_tried'),
+    recap_need:        gv('recap_need'),
   };
 
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
-  .then(function() {
+  // Build a query string and use an image tag for reliable no-cors submission
+  var params = Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+  }).join('&');
+
+  var img = new Image();
+  img.onload = img.onerror = function() {
     btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
     btn.disabled = false;
     document.getElementById('successMsg').style.display = 'block';
     document.getElementById('errorMsg').style.display = 'none';
-  })
-  .catch(function() {
-    btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
-    btn.disabled = false;
-    document.getElementById('errorMsg').style.display = 'block';
-    document.getElementById('successMsg').style.display = 'none';
-  });
+  };
+  img.src = SCRIPT_URL + '?' + params;
 }
 </script>
 
