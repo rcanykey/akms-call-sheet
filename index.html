@@ -1190,24 +1190,41 @@ function submitToSheets() {
     recap_need:        gv('recap_need'),
   };
 
-  // Build a query string and submit via fetch (no-cors)
-  var params = Object.keys(data).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
-  }).join('&');
+  // Submit via hidden form POST — most reliable method for Google Apps Script
+  var form = document.createElement('form');
+  form.method = 'GET';
+  form.action = SCRIPT_URL;
+  form.target = 'hidden_iframe';
+  form.style.display = 'none';
 
-  fetch(SCRIPT_URL + '?' + params, { method: 'GET', mode: 'no-cors' })
-    .then(function() {
-      btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
-      btn.disabled = false;
-      document.getElementById('successMsg').style.display = 'block';
-      document.getElementById('errorMsg').style.display = 'none';
-    })
-    .catch(function() {
-      btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
-      btn.disabled = false;
-      document.getElementById('successMsg').style.display = 'block';
-      document.getElementById('errorMsg').style.display = 'none';
-    });
+  Object.keys(data).forEach(function(k) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = k;
+    input.value = data[k];
+    form.appendChild(input);
+  });
+
+  // Create hidden iframe to receive the response (prevents page redirect)
+  var iframe = document.getElementById('hidden_iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.name = 'hidden_iframe';
+    iframe.id = 'hidden_iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+
+  iframe.onload = function() {
+    btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
+    btn.disabled = false;
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('errorMsg').style.display = 'none';
+    document.body.removeChild(form);
+  };
+
+  document.body.appendChild(form);
+  form.submit();
 }
 </script>
 
