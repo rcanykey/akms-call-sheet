@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AKMS Hybrid Push Call — V4 Smart Form</title>
+<title>AKMS Hybrid Push Call — V5 Smart Form</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; font-size: 15px; }
@@ -454,7 +454,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="section-title">☐ Page 1 — Intro</div>
 
     <p style="margin-bottom:10px;">Hi, can you hear me ok?</p>
-    <p style="margin-bottom:10px;">Great, this is <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, right? <span class="inline-blank"></span></p>
+    <p style="margin-bottom:10px;">Great, this is <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, right?</p>
     <p style="margin-bottom:10px;">Where are you Zooming in from? <input type="text" class="answer-field" id="q_zooming" placeholder="Type their location..." oninput="updateSummary()" style="display:inline-block; width:320px; margin-left:6px;"></p>
     <p style="margin-bottom:16px;">Have you been there for a long time? <input type="text" class="answer-field" id="q_longtime" placeholder="Type their answer..." oninput="updateSummary()" style="display:inline-block; width:320px; margin-left:6px;"></p>
 
@@ -469,7 +469,15 @@ h1, h2, h3, h4 { line-height: 1.3; }
   <!-- ===== PAGE 2: THE DETECTIVE ===== -->
   <div class="section-block">
     <div class="section-title">☐ Page 2 — The Detective: Uncover the Problem</div>
-    <div class="note-box">NOTE: Lots of questions. Minimal talking. Record calls for training purposes.</div>
+    <div class="note-box">⚠️ IMPORTANT: Always mention you record calls on EVERY call. Lots of questions. Minimal talking.</div>
+
+    <div class="script-line">"And just to let you know, I always record these calls for training purposes." <em>[Also, it makes it easier to take notes.]</em></div>
+    <div class="script-line">"So with that being said, maybe we can start with — what was it specifically that made you think… I need to book an appointment with them?"</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Why did they book this call?</div>
+      <textarea class="answer-field p-field" id="q_whybooked" rows="2" placeholder="Answer..."></textarea>
+    </div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">Basic Line of Questioning</div>
 
@@ -542,9 +550,20 @@ h1, h2, h3, h4 { line-height: 1.3; }
       <textarea class="answer-field p-field" id="q_embellish" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
-    <div class="script-line">Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right? <em>Yikes, ok. We need to fix this pretty soon then.</em></div>
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Did you think that [your background / what you tried] would enable you to play By Ear and in Any Key?</div>
+      <textarea class="answer-field p-field" id="p_thought_itd_work" placeholder="Answer..." rows="2"></textarea>
+    </div>
+
+    <div class="script-line">"Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right?"</div>
+    <div class="script-line" style="background:#fff0f0; border-left-color:#c0392b; font-weight:700; color:#c0392b;">"Yikes, ok. We need to fix this pretty soon then." 💥</div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">☐ Pain Amplification Questions</div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Are these results pretty typical? Has the past few years been a similar story?</div>
+      <textarea class="answer-field p-field" id="p_typical_results" placeholder="Answer..." rows="2"></textarea>
+    </div>
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> How long exactly have you been trying?</div>
@@ -575,7 +594,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
     <div class="note-box">NOTE: Find out what didn't work in the other program (e.g. lack of support) so you can tailor your pitch accordingly.</div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> Why do you think that is?</div>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-t">T</span> Why do you think that is? <em>[Why do you think those didn't work — or that didn't work?]</em></div>
       <textarea class="answer-field t-field" id="t_whydidntwork" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
 
@@ -587,8 +606,18 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> What are your musical goals for the next 6–12 months — and why does that matter to you personally?</div>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-n">N</span> What are your musical goals for the next 6–12 months — if you found the right method, what would you want to achieve?</div>
       <textarea class="answer-field n-field" id="goal_6to12" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-goal">GOAL</span> How did you come up with that goal?</div>
+      <textarea class="answer-field goal-field" id="goal_how_came_up" placeholder="Answer..." rows="2"></textarea>
+    </div>
+
+    <div class="q-row">
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-goal">GOAL</span> Why is it important to you?</div>
+      <textarea class="answer-field goal-field" id="goal_why_important" placeholder="Answer..." rows="2"></textarea>
     </div>
 
     <div class="section-title" style="font-size:13px; margin-top:20px;">Summary / Recap Statement</div>
@@ -634,14 +663,49 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="talking-points">
       <strong>TALKING POINTS — Expose the industry (target what they've tried that didn't work):</strong>
-      <ul>
-        <li><strong>Theory</strong> — e.g. Music Schools &amp; University</li>
-        <li><strong>Intervals</strong> — e.g. Music Schools &amp; University</li>
-        <li><strong>Chord Charts</strong> — e.g. Online Courses &amp; Memberships</li>
-        <li><strong>Copy-Me Videos/Apps</strong> — e.g. Online Courses &amp; Memberships</li>
-        <li><strong>Perfect Pitch</strong> — e.g. Savants</li>
-      </ul>
-      <em style="font-size:12px;">(Make it sound like this came off the top of your head)</em>
+      <em style="font-size:12px; display:block; margin-bottom:14px;">(Make it sound like this came off the top of your head)</em>
+
+      <div style="margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #d0d8ee;">
+        <strong style="font-size:13px; color:#1a1a2e;">📌 THEORY</strong>
+        <div style="font-size:12px; color:#666; margin:2px 0 8px;">e.g. Music Schools &amp; University</div>
+        <p style="margin-bottom:10px; line-height:1.9;">If that worked, millions of readers would be able to play any song they choose.</p>
+        <p style="line-height:1.9;">The main focus of theory is on what you <em>see</em>.</p>
+      </div>
+
+      <div style="margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #d0d8ee;">
+        <strong style="font-size:13px; color:#1a1a2e;">📌 INTERVALS</strong>
+        <div style="font-size:12px; color:#666; margin:2px 0 8px;">e.g. Music Schools &amp; University</div>
+        <p style="margin-bottom:10px; line-height:1.9;">It's not practical.</p>
+        <p style="margin-bottom:10px; line-height:1.9;">That's like trying to identify each letter in every sentence while I'm talking.</p>
+        <p style="margin-bottom:10px; line-height:1.9;">I'll say it again. It's not practical.</p>
+        <p style="margin-bottom:10px; line-height:1.9;">That's like trying to identify each letter in every sentence...</p>
+        <p style="margin-bottom:10px; font-size:15px; font-weight:700; letter-spacing:4px; color:#1a1a2e; font-family:monospace;">W - H - I - L - E &nbsp; I ' M &nbsp; T - A - L - K - I - N - G</p>
+        <p style="margin-bottom:10px; line-height:1.9;">Focusing on intervals is like counting the wind.</p>
+        <p style="line-height:1.9;">You know it's there, but counting it would be a waste of time.</p>
+      </div>
+
+      <div style="margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #d0d8ee;">
+        <strong style="font-size:13px; color:#1a1a2e;">📌 CHORD CHARTS</strong>
+        <div style="font-size:12px; color:#666; margin:2px 0 8px;">e.g. Online Courses &amp; Memberships</div>
+        <p style="margin-bottom:10px; line-height:1.9;">If you have to rely on chord charts to play your favorite songs, then you're not playing By Ear.</p>
+        <p style="line-height:1.9;">You're simply reading a chord chart.</p>
+      </div>
+
+      <div style="margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #d0d8ee;">
+        <strong style="font-size:13px; color:#1a1a2e;">📌 COPY-ME VIDEOS / APPS</strong>
+        <div style="font-size:12px; color:#666; margin:2px 0 8px;">e.g. Online Courses &amp; Memberships</div>
+        <p style="margin-bottom:10px; line-height:1.9;">If you have to rely on softwares or apps or a skilled person showing you what note to play, then you're not playing By Ear.</p>
+        <p style="line-height:1.9;">You're simply being taught how to be dependent.</p>
+      </div>
+
+      <div>
+        <strong style="font-size:13px; color:#1a1a2e;">📌 PERFECT PITCH</strong>
+        <div style="font-size:12px; color:#666; margin:2px 0 8px;">e.g. Savants</div>
+        <p style="margin-bottom:10px; line-height:1.9;">It's not necessary.</p>
+        <p style="margin-bottom:10px; line-height:1.9;">Only a small percentage of play By Ear musicians have perfect pitch.</p>
+        <p style="line-height:1.9;">The rest don't.</p>
+      </div>
+
     </div>
 
     <div class="q-row">
@@ -666,7 +730,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> I also noticed on your form you said: <strong><span id="auto_powerful_thing" style="color:#c0392b; font-style:normal;">___</span></strong> — and WE LOVE THAT. That's exactly the kind of thing we're looking for from the people we work with.</div>
+      <div class="q-label"><input type="checkbox"> <em>[Oh and by the way, not a question here just a quick statement…]</em> I also noticed on your form you said: <strong><span id="auto_powerful_thing" style="color:#c0392b; font-style:normal;">___</span></strong> — and WE LOVE THAT. That's exactly the kind of mindset we're looking for from the people we work with.</div>
     </div>
 
     <div class="script-line">[PAUSE FOR A RESPONSE]</div>
@@ -675,6 +739,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
       <div class="q-label"><input type="checkbox"> Great — is there anything at all that you feel like we haven't covered, that would be good for me to know?</div>
       <textarea class="answer-field" id="q_anythingelse" placeholder="Answer..." oninput="updateSummary()" rows="2"></textarea>
     </div>
+
+    <div class="script-line">[10,000 Hours Analogy] "Let's pretend that you were to go ahead with something that in 12 months would get you <strong><span id="auto_10k_goal" style="color:#c0392b;">___</span></strong>… is that something you'd genuinely want?"</div>
 
     <div class="q-row">
       <div class="q-label"><input type="checkbox"> Is 5 hours a week something you'd be willing and able to commit to right now to make that happen?</div>
@@ -753,7 +819,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <div class="script-line">"Ok awesome! So where would you like to go from here?"</div>
     <div class="note-box">NOTE: They should ask you how much it is.</div>
-    <div class="script-line">"So here's the deal… To work with you in the Master Club for the next 12 months, the investment is just 4 payments of $1,500 — or you can save $1,000 by doing one payment of $5,000."</div>
+    <div class="script-line">"So here's the deal… To work with you in the Master Club for the next 12 months, the investment is just 4 payments of $1,500 — or you can save $1,000 by doing one payment of $5,000." <em>[Which works better for you?]</em></div>
     <div class="note-box" style="background:#fff0f0; border-color:#c0392b; color:#c0392b;"><strong>SHUT UP. Wait for them to speak first. Don't rush on. Spend time here figuring out how they could make this work.</strong></div>
   </div>
 
@@ -789,6 +855,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
         <div class="sum-items">
           <div class="sum-item"><span class="sum-item-label">Zooming in from?</span><span class="sum-item-answer" id="sum_q_zooming">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Been there long?</span><span class="sum-item-answer" id="sum_q_longtime">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Why did they book?</span><span class="sum-item-answer" id="sum_q_whybooked">—</span></div>
         </div>
       </div>
 
@@ -805,6 +872,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
           <div class="sum-item"><span class="sum-item-label">Biggest challenge?</span><span class="sum-item-answer" id="sum_p_bigchallenge">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Results last 12 months?</span><span class="sum-item-answer" id="sum_p_12months">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Embellishments they can add?</span><span class="sum-item-answer" id="sum_q_embellish">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Thought background would work?</span><span class="sum-item-answer" id="sum_p_thought_itd_work">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Typical results — past few years?</span><span class="sum-item-answer" id="sum_p_typical_results">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #1 — Impact on them?</span><span class="sum-item-answer" id="sum_p_emotion1">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #2 — Tough spot emotionally?</span><span class="sum-item-answer" id="sum_p_emotion2">—</span></div>
           <div class="sum-item"><span class="sum-item-label">What's keeping them stuck?</span><span class="sum-item-answer" id="sum_p_keepingfrom">—</span></div>
@@ -837,6 +906,8 @@ h1, h2, h3, h4 { line-height: 1.3; }
           <div class="sum-item"><span class="sum-item-label">What shifted recently?</span><span class="sum-item-answer" id="sum_n_shifted">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Why is it important?</span><span class="sum-item-answer" id="sum_n_important">—</span></div>
           <div class="sum-item"><span class="sum-item-label">6–12 month goal?</span><span class="sum-item-answer" id="sum_goal_6to12">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">How did they come up with that goal?</span><span class="sum-item-answer" id="sum_goal_how_came_up">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Why is it important to them?</span><span class="sum-item-answer" id="sum_goal_why_important">—</span></div>
         </div>
       </div>
 
@@ -922,6 +993,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
 const fieldMap = [
   ['q_zooming',        'sum_q_zooming'],
   ['q_longtime',       'sum_q_longtime'],
+  ['q_whybooked',      'sum_q_whybooked'],
   ['p_howlong',        'sum_p_howlong'],
   ['p_ear',            'sum_p_ear'],
   ['p_allkeys',        'sum_p_allkeys'],
@@ -948,6 +1020,10 @@ const fieldMap = [
   ['spouse_supportive','sum_spouse_supportive'],
   ['spouse_aware',     'sum_spouse_aware'],
   ['q_now_or_later',   'sum_now_or_later'],
+  ['p_thought_itd_work','sum_p_thought_itd_work'],
+  ['p_typical_results', 'sum_p_typical_results'],
+  ['goal_how_came_up',  'sum_goal_how_came_up'],
+  ['goal_why_important','sum_goal_why_important'],
 ];
 
 // ── DEBOUNCE helper
@@ -993,6 +1069,10 @@ function autoPopulateInline() {
   var wtw = val('appWhatTheyWant');
   var wtwEl = document.getElementById('auto_what_they_want');
   if (wtwEl) wtwEl.textContent = wtw || '___';
+  // 10k goal span — pulls from 6-12 month goal field
+  var g10k = val('goal_6to12') || val('appWhatTheyWant');
+  var g10kEl = document.getElementById('auto_10k_goal');
+  if (g10kEl) g10kEl.textContent = g10k || 'XYZ GOAL';
 }
 
 // ── Auto-populate MAIN ISSUE → issue_recap
@@ -1008,7 +1088,7 @@ function autoPopulateMainIssue() {
 
 // ── Auto-populate GOAL keeping from (What They Want + N fields)
 function autoPopulateGoal() {
-  var parts = [val('appWhatTheyWant'), val('n_shifted'), val('goal_6to12')].filter(Boolean);
+  var parts = [val('appWhatTheyWant'), val('n_shifted'), val('goal_6to12'), val('goal_how_came_up'), val('goal_why_important')].filter(Boolean);
   var el = document.getElementById('goal_keepingfrom');
   if (el && el.dataset.manualEdit !== 'true') el.value = parts.join('\n─────────────\n');
 }
@@ -1026,7 +1106,8 @@ function autoPopulateRecapFeeling() {
   var pFields = [
     {id:'p_howlong',label:'Playing for'},{id:'p_ear',label:'Ear strength'},
     {id:'p_allkeys',label:'Tried all keys'},{id:'p_bigchallenge',label:'Biggest challenge'},
-    {id:'p_12months',label:'Last 12 months'},{id:'p_emotion1',label:'Emotion #1'},
+    {id:'p_12months',label:'Last 12 months'},{id:'p_thought_itd_work',label:'Thought it would work'},
+    {id:'p_typical_results',label:'Typical results'},{id:'p_emotion1',label:'Emotion #1'},
     {id:'p_emotion2',label:'Emotion #2'},{id:'p_keepingfrom',label:'Keeping them from'},
     {id:'q_embellish',label:'Embellishments'}
   ];
@@ -1136,7 +1217,7 @@ window.onload = function() {
 };
 
 // ===== GOOGLE SHEETS SUBMISSION =====
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHMhIPUMM97_mAUtz-PPnbVgsep4mbHFAYYFLlClSmjqHOEfNNt3MY0fI1sojLTAfrFQ/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqYdPfwu0X2gp-ZbFtk29Fq26jOKI5Gp_09h9Gqex0p-4EDqFxxPuZQxnDdQyku9eS2w/exec';
 
 function gv(id) {
   var el = document.getElementById(id);
@@ -1159,6 +1240,7 @@ function submitToSheets() {
     appPowerfulThing:  gv('appPowerfulThing'),
     q_zooming:         gv('q_zooming'),
     q_longtime:        gv('q_longtime'),
+    q_whybooked:       gv('q_whybooked'),
     p_howlong:         gv('p_howlong'),
     p_ear:             gv('p_ear'),
     q_chords:          gv('q_chords'),
@@ -1188,43 +1270,25 @@ function submitToSheets() {
     recap_feeling:     gv('recap_feeling'),
     recap_tried:       gv('recap_tried'),
     recap_need:        gv('recap_need'),
+    p_thought_itd_work:gv('p_thought_itd_work'),
+    p_typical_results: gv('p_typical_results'),
+    goal_how_came_up:  gv('goal_how_came_up'),
+    goal_why_important:gv('goal_why_important'),
   };
 
-  // Submit via hidden form POST — most reliable method for Google Apps Script
-  var form = document.createElement('form');
-  form.method = 'GET';
-  form.action = SCRIPT_URL;
-  form.target = 'hidden_iframe';
-  form.style.display = 'none';
+  // Build a query string and use an image tag for reliable no-cors submission
+  var params = Object.keys(data).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+  }).join('&');
 
-  Object.keys(data).forEach(function(k) {
-    var input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = k;
-    input.value = data[k];
-    form.appendChild(input);
-  });
-
-  // Create hidden iframe to receive the response (prevents page redirect)
-  var iframe = document.getElementById('hidden_iframe');
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.name = 'hidden_iframe';
-    iframe.id = 'hidden_iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-  }
-
-  iframe.onload = function() {
+  var img = new Image();
+  img.onload = img.onerror = function() {
     btn.textContent = '✅ SUBMIT CALL — SEND TO GOOGLE SHEETS';
     btn.disabled = false;
     document.getElementById('successMsg').style.display = 'block';
     document.getElementById('errorMsg').style.display = 'none';
-    document.body.removeChild(form);
   };
-
-  document.body.appendChild(form);
-  form.submit();
+  img.src = SCRIPT_URL + '?' + params;
 }
 </script>
 
