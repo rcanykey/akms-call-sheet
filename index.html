@@ -460,10 +460,10 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
     <p style="margin-bottom:10px;">Great, is it ok if we get started?</p>
 
-    <div class="script-line">"Okay <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, I want to be respectful of our time today, we have about 45 minutes or so to see if we can help you…"</div>
+    <div class="script-line">"Okay <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, I want to be respectful of our time today, we have about 45 minutes or so to see if we can help you <strong><span id="auto_what_they_want" style="color:#c0392b;">___</span></strong>..."</div>
 
     <div class="script-line">"So in order to determine if we can help you do that, I'm going to ask you some questions to find out what the problems are so we can fix them… and I'll be writing down my notes."</div>
-    <div class="script-line">"Once we find out what is keeping you from <strong><span id="auto_what_they_want" style="color:#c0392b;">___</span></strong>, I'll share with you EXACTLY what you need to do to fix it… If you feel like you're going to want more help from me, I'll provide some options for you. Sound good?"</div>
+    <div class="script-line">"Once we find out what's keeping you from <strong><span id="auto_what_they_want_2" style="color:#c0392b;">___</span></strong>, I'll share with you EXACTLY what you need to do to fix it… If you feel like you're going to want more help from us, I'll provide some options for you. Sound good?"</div>
   </div>
 
   <!-- ===== PAGE 2: THE DETECTIVE ===== -->
@@ -1069,6 +1069,8 @@ function autoPopulateInline() {
   var wtw = val('appWhatTheyWant');
   var wtwEl = document.getElementById('auto_what_they_want');
   if (wtwEl) wtwEl.textContent = wtw || '___';
+  var wtwEl2 = document.getElementById('auto_what_they_want_2');
+  if (wtwEl2) wtwEl2.textContent = wtw || '___';
   // 10k goal span — pulls from 6-12 month goal field
   var g10k = val('goal_6to12') || val('appWhatTheyWant');
   var g10kEl = document.getElementById('auto_10k_goal');
