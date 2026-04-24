@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AKMS Hybrid Push Call — V5 Smart Form</title>
+<title>AKMS Hybrid Push Call — V6 Smart Form</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; font-size: 15px; }
@@ -394,6 +394,128 @@ h1, h2, h3, h4 { line-height: 1.3; }
   .recap-script-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .no-print { display: none !important; }
 }
+
+/* ===================== OBJECTION HANDLING ===================== */
+.obj-selector {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 16px 0;
+}
+.obj-btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.obj-nav-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  letter-spacing: 0.3px;
+}
+.obj-nav-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.obj-flow-btn {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  min-width: 180px;
+  transition: opacity 0.15s;
+  line-height: 1.6;
+}
+.obj-flow-btn:hover { opacity: 0.8; }
+.btn-money    { background: #fdf2e9; color: #784212; border: 2px solid #e67e22; }
+.btn-thinkabt { background: #eaf4fb; color: #1a5276; border: 2px solid #2980b9; }
+.btn-spouse   { background: #f5eef8; color: #6c3483; border: 2px solid #8e44ad; }
+.btn-fear     { background: #fdedec; color: #922b21; border: 2px solid #c0392b; }
+.btn-logistics{ background: #eafaf1; color: #1e8449; border: 2px solid #27ae60; }
+
+.obj-track {
+  margin-top: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.obj-track-header {
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+.obj-back-btn {
+  display: inline-block;
+  margin: 12px 20px 4px;
+  padding: 6px 14px;
+  background: #f0f0f0;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #555;
+}
+.obj-back-btn:hover { background: #e0e0e0; }
+
+.obj-step {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.obj-step-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1a1a2e;
+  background: #f7f7f7;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+.obj-options {
+  background: #fafafa;
+  border-left: 3px solid #e67e22;
+  padding: 10px 14px;
+  margin: 10px 0;
+  font-size: 13px;
+  line-height: 2;
+  color: #444;
+  border-radius: 0 6px 6px 0;
+}
+.obj-jump-row {
+  padding: 16px 20px;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.obj-flow-selector {
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+.spouse-flow {
+  border-top: 2px solid #e0e0e0;
+}
+.obj-flow-label {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+/* Summary objection section */
+.sum-section.sh-obj .sum-section-header { background: #1a1a2e; color: #fff; }
+.sum-section.sh-obj .sum-badge { background: #c0392b; }
+
 </style>
 </head>
 <body>
@@ -825,6 +947,316 @@ h1, h2, h3, h4 { line-height: 1.3; }
   </div>
 
 
+
+  <!-- ===================================================== -->
+  <!-- ============= PAGE 10: OBJECTION HANDLING =========== -->
+  <!-- ===================================================== -->
+
+  <div class="section-block" id="objection-section">
+    <div class="section-title">☐ Page 10 — Objection Handling</div>
+    <div class="note-box">NOTE: After dropping the price — SHUT UP and wait. When they respond, identify the objection and click the button below to jump straight to that track.</div>
+
+    <!-- MAIN OBJECTION SELECTOR -->
+    <div class="obj-selector" id="obj-main-selector">
+      <div style="font-weight:800; font-size:13px; color:#1a1a2e; margin-bottom:14px; text-transform:uppercase; letter-spacing:1px;">What's their objection?</div>
+      <div class="obj-btn-row">
+        <button class="obj-nav-btn btn-money"    onclick="showObj('money')">💰 Money</button>
+        <button class="obj-nav-btn btn-thinkabt" onclick="showObj('thinkabt')">🤔 Think About It</button>
+        <button class="obj-nav-btn btn-spouse"   onclick="showObj('spouse')">👫 Spouse / Partner</button>
+        <button class="obj-nav-btn btn-fear"     onclick="showObj('fear')">😨 Fear</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 💰 MONEY -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="obj-track" id="obj-money" style="display:none;">
+      <div class="obj-track-header btn-money">💰 Money / Expensive</div>
+      <button class="obj-back-btn" onclick="backToMenu()">↩ Back to Objection Menu</button>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P1 — Clarify what they mean</div>
+        <div class="script-line">"OK <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, no problem. When you say that's _____, what do you mean specifically? Because that can mean many things. It could mean:"</div>
+        <div class="obj-options">
+          <div>• That's more than I thought it would be.</div>
+          <div>• That's _____ but I'm willing to pay it IF it gets me <em><span class="auto-obj-goal" style="color:#c0392b; font-weight:700;">their goal</span></em>.</div>
+          <div>• That's _____ because I don't have the money.</div>
+          <div>• That's _____ because I don't have the money, but I'm willing to find it.</div>
+        </div>
+        <div class="script-line">"So can you clarify which one is it?"</div>
+        <textarea class="answer-field" id="obj_money_p1" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P2 — Is it worth it?</div>
+        <div class="script-line">"Ok. But if it gets you the result you want, can I ask — do you think it would be worth it?"</div>
+        <textarea class="answer-field" id="obj_money_p2" placeholder="Their response..." rows="2"></textarea>
+        <div class="script-line">"So where do you want to go from here?"</div>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P3 — Money aside reframe</div>
+        <div class="script-line">"OK no problem. I can see how the investment could be a big step. And getting you from <strong><span class="auto-obj-issue" style="color:#c0392b;">their issue</span></strong> to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong> is also a big step too, right?"</div>
+        <div class="script-line">"So money aside — because that's the easy stuff — in your own opinion, do you feel that what we do can get you to where you want to go?"</div>
+        <div class="script-line">"Why do you feel it can?"</div>
+        <textarea class="answer-field" id="obj_money_p3" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P4 — The $5,000 test</div>
+        <div class="script-line">"So if you had the $5,000 in your hand right now, would you do it?… or would you take a vacation and go to the beach?"</div>
+        <textarea class="answer-field" id="obj_money_p4" placeholder="Their response..." rows="2"></textarea>
+        <div class="script-line">"So is it a case of a little bit of uncertainty around the investment — or is it that you just don't have the investment? Which one is it?"</div>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P5 — Logistics Close</div>
+        <div class="script-line">"So would it be fair to say that it's just an issue with the logistics of the investment — meaning, you know we can get you to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>, but we just need to figure out how, right?"</div>
+        <div class="script-line">"If that's the case, would you like me to see how we can break this down into more manageable payments for you?… Would that help you move forward so we can get you to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>?"</div>
+        <div class="script-line">"So we can do 4 payments of $1,500 — or one payment of $5,000 and save $1,000. Which would make more sense for you?"</div>
+        <textarea class="answer-field" id="obj_money_p5" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-jump-row">
+        <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:8px;">Still an objection? Jump to:</div>
+        <button class="obj-nav-btn btn-spouse" onclick="showObj('spouse')">👫 Spouse / Partner</button>
+        <button class="obj-nav-btn btn-fear"   onclick="showObj('fear')">😨 Fear</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 🤔 THINK ABOUT IT -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="obj-track" id="obj-thinkabt" style="display:none;">
+      <div class="obj-track-header btn-thinkabt">🤔 Think About It</div>
+      <button class="obj-back-btn" onclick="backToMenu()">↩ Back to Objection Menu</button>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P1 — Soft opener</div>
+        <div class="script-line">"Yeah, that's no problem. Can I ask — in your opinion… before you go think about this… do you feel like what we went over can get you to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>? Because that's the most important part."</div>
+        <textarea class="answer-field" id="obj_thinkabt_p1a" placeholder="Their response..." rows="2"></textarea>
+        <div class="script-line">"Why do you feel like it can?"</div>
+        <textarea class="answer-field" id="obj_thinkabt_p1b" placeholder="Their response..." rows="2"></textarea>
+        <div class="script-line">"Ok cool. Can I ask — when you go and think about this, what is coming up that makes you want to do that?"</div>
+        <textarea class="answer-field" id="obj_thinkabt_p1c" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P2 — Identify the real objection</div>
+        <div class="script-line">"Ok, no problem <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, if you want to think about it, I totally get it. Just so that I understand — what exactly do you want to think about?… Think about the investment? Think about whether it will work? What is it that you want to be thinking about?"</div>
+        <textarea class="answer-field" id="obj_thinkabt_p2" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-jump-row">
+        <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:8px;">What do they want to think about? Jump to:</div>
+        <button class="obj-nav-btn btn-money"    onclick="showObj('money')">💰 Money</button>
+        <button class="obj-nav-btn btn-spouse"   onclick="showObj('spouse')">👫 Spouse / Partner</button>
+        <button class="obj-nav-btn btn-fear"     onclick="showObj('fear')">😨 Fear</button>
+        <button class="obj-nav-btn btn-logistics" onclick="showObj('money'); setTimeout(function(){document.getElementById('obj_money_p4').scrollIntoView({behavior:'smooth'})},300)">📋 Logistics → P4</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 👫 SPOUSE / PARTNER -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="obj-track" id="obj-spouse" style="display:none;">
+      <div class="obj-track-header btn-spouse">👫 Spouse / Partner</div>
+      <button class="obj-back-btn" onclick="backToMenu()">↩ Back to Objection Menu</button>
+
+      <div class="note-box">NOTE: Choose the flow that best fits the situation — then work through it in order.</div>
+
+      <!-- FLOW SELECTOR -->
+      <div class="obj-flow-selector" id="spouse-flow-selector">
+        <div style="font-weight:800; font-size:13px; color:#1a1a2e; margin-bottom:12px;">Which flow fits best?</div>
+        <div class="obj-btn-row" style="flex-wrap:wrap; gap:10px;">
+          <button class="obj-flow-btn" onclick="showSpouseFlow('A')" style="background:#e8f4fd; border:2px solid #2980b9; color:#1a5276;">
+            <strong>Flow A</strong><br><span style="font-size:11px;">Soft opener — dig into belief it'll work</span>
+          </button>
+          <button class="obj-flow-btn" onclick="showSpouseFlow('B')" style="background:#fdf2e9; border:2px solid #e67e22; color:#784212;">
+            <strong>Flow B</strong><br><span style="font-size:11px;">Deeper push — responsibility reframe</span>
+          </button>
+          <button class="obj-flow-btn" onclick="showSpouseFlow('C')" style="background:#eafaf1; border:2px solid #27ae60; color:#1e8449;">
+            <strong>Flow C</strong><br><span style="font-size:11px;">Deposit close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SPOUSE FLOW A -->
+      <div class="spouse-flow" id="spouse-flow-A" style="display:none;">
+        <div class="obj-flow-label" style="background:#2980b9;">👫 Flow A — Soft Opener</div>
+        <button class="obj-back-btn" onclick="backToSpouseMenu()" style="margin-bottom:12px;">↩ Back to Spouse Flows</button>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P1a — Open with empathy</div>
+          <div class="script-line">"Yeah, that's no problem. I have a partner myself, so I understand. Can I ask — in your opinion… before you go talk to your <strong><span class="auto-obj-spouse" style="color:#c0392b;">partner/spouse</span></strong> about this… do you feel like what we went over can get you to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>? Because that's the most important part."</div>
+          <textarea class="answer-field" id="obj_spouse_a_p1a" placeholder="Their response..." rows="2"></textarea>
+          <div class="script-line">"Why do you feel like it can?"</div>
+          <textarea class="answer-field" id="obj_spouse_a_p1b" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P1b — Will the spouse support it?</div>
+          <div class="script-line">"Ok cool. So when you go to your <strong><span class="auto-obj-spouse" style="color:#c0392b;">partner/spouse</span></strong>, do you feel they would want you to get from <strong><span class="auto-obj-issue" style="color:#c0392b;">their issue</span></strong> to <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>? Or how do you feel?"</div>
+          <textarea class="answer-field" id="obj_spouse_a_p1c" placeholder="Their response..." rows="2"></textarea>
+          <div class="script-line">"And why would they want you to do that after <strong><span class="auto-obj-howlong" style="color:#c0392b;">X years</span></strong> of trying? Do they really know how important this is to you?"</div>
+          <textarea class="answer-field" id="obj_spouse_a_p1d" placeholder="Their response..." rows="2"></textarea>
+          <div class="script-line">"Ok cool — and when you do go to your <strong><span class="auto-obj-spouse" style="color:#c0392b;">partner/spouse</span></strong>, what do you feel will be the potential obstacles that may stop you both from moving forward?"</div>
+          <textarea class="answer-field" id="obj_spouse_a_p1e" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-jump-row">
+          <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:8px;">What obstacle did they name? Jump to:</div>
+          <button class="obj-nav-btn btn-money" onclick="showObj('money')">💰 Money</button>
+          <button class="obj-nav-btn btn-fear"  onclick="showObj('fear')">😨 Fear</button>
+        </div>
+      </div>
+
+      <!-- SPOUSE FLOW B -->
+      <div class="spouse-flow" id="spouse-flow-B" style="display:none;">
+        <div class="obj-flow-label" style="background:#e67e22;">👫 Flow B — Responsibility Reframe</div>
+        <button class="obj-back-btn" onclick="backToSpouseMenu()" style="margin-bottom:12px;">↩ Back to Spouse Flows</button>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P2a — Confirm it's 100% what they want</div>
+          <div class="script-line">"Ok <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, no problem. That's absolutely fine… Just to clarify — are you saying this is 100% what you want to do, but you just need to speak with your partner/spouse?"</div>
+          <div class="script-line">"So if your partner/spouse was here and saw everything I shared today and said 'I want you to do it' — would you do it?"</div>
+          <textarea class="answer-field" id="obj_spouse_b_p2a" placeholder="Their response + why..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P2b — What if they said no?</div>
+          <div class="script-line">"Let me ask you this — what if they said no? Would you still do it?"</div>
+          <textarea class="answer-field" id="obj_spouse_b_p2b" placeholder="Their response..." rows="2"></textarea>
+          <div class="script-line">"I understand. But ultimately — whose responsibility is it whether you achieve <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong> or not?"</div>
+          <div class="script-line">"Is it fair to transfer that responsibility to your spouse, who has no knowledge of this program and no knowledge of what you're experiencing musically?… Is it fair to give them the weight of that responsibility based on no information?"</div>
+          <textarea class="answer-field" id="obj_spouse_b_p2c" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P2c — Offer a 3-way call</div>
+          <div class="script-line">"So why don't we do this — let's arrange a call with you and your partner/spouse where we can go through this together. Because I'm sure if this is a joint decision, they're going to have opinions and questions that you can't answer regarding my program — but I can. Is that fair?"</div>
+          <div class="script-line">"So what we'll do is take a small deposit to lock in your spot, and we'll book that call."</div>
+          <textarea class="answer-field" id="obj_spouse_b_p2d" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-jump-row">
+          <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:8px;">Still hesitant? Jump to:</div>
+          <button class="obj-nav-btn btn-money" onclick="showObj('money')">💰 Money</button>
+          <button class="obj-nav-btn btn-fear"  onclick="showObj('fear')">😨 Fear</button>
+        </div>
+      </div>
+
+      <!-- SPOUSE FLOW C -->
+      <div class="spouse-flow" id="spouse-flow-C" style="display:none;">
+        <div class="obj-flow-label" style="background:#27ae60;">👫 Flow C — Deposit Close</div>
+        <button class="obj-back-btn" onclick="backToSpouseMenu()" style="margin-bottom:12px;">↩ Back to Spouse Flows</button>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P3a — Honey, here's what I'm doing vs. asking permission</div>
+          <div class="script-line">"Ok <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>, no problem. I'm married too and I would need to do that or I'd be homeless!"</div>
+          <div class="script-line">"So is speaking to your partner more of a 'honey, here's what I'm going to do' — or is it more like asking permission, 'honey, can I do this?'"</div>
+          <textarea class="answer-field" id="obj_spouse_c_p3a" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-step">
+          <div class="obj-step-label">P3b — Take the deposit</div>
+          <div class="script-line">"So to clarify — are you saying this is 100% what you want to do to achieve <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>, but you just need to speak with your partner/spouse?"</div>
+          <div class="script-line">"What we'll do is a small deposit to hold your spot. You speak with your spouse, and then we can speak in a few days. If they're on board, we officially get started. If not — and they threaten to make you homeless — just let me know and I'll refund your deposit. Sound good?"</div>
+          <textarea class="answer-field" id="obj_spouse_c_p3b" placeholder="Their response..." rows="2"></textarea>
+        </div>
+
+        <div class="obj-jump-row">
+          <div style="font-size:12px; font-weight:700; color:#555; margin-bottom:8px;">Still hesitant after deposit close? Jump to:</div>
+          <button class="obj-nav-btn btn-fear" onclick="showObj('fear')">😨 Fear</button>
+        </div>
+      </div>
+
+    </div><!-- end spouse track -->
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 😨 FEAR -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="obj-track" id="obj-fear" style="display:none;">
+      <div class="obj-track-header btn-fear">😨 Fear</div>
+      <button class="obj-back-btn" onclick="backToMenu()">↩ Back to Objection Menu</button>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P1 — Name it</div>
+        <div class="script-line">"Can I be totally honest with you, <strong><span class="auto-name" style="color:#c0392b;">NAME</span></strong>?"</div>
+        <div class="script-line">"We just finished talking about your problem and how what we do is going to fix that problem for you and help you achieve <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong>."</div>
+        <div class="script-line">"Do you agree — you told me this is what you're looking for, you told me exactly what you liked about it, and now it feels like you're backtracking a little bit… So can we be totally honest? What's really going on here?"</div>
+        <textarea class="answer-field" id="obj_fear_p1" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label">P2 — Identify the uncertainty</div>
+        <div class="script-line">"Ok, so is it fair to say that there's a bit of uncertainty here — because that's what I'm hearing?"</div>
+        <textarea class="answer-field" id="obj_fear_p2a" placeholder="Their response..." rows="2"></textarea>
+        <div class="script-line">"OK got it — can I ask, what is the uncertainty about specifically? Is it the program? Is it about yourself? Is it the company? Is it me? Please help me understand…"</div>
+        <textarea class="answer-field" id="obj_fear_p2b" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-step">
+        <div class="obj-step-label" style="background: linear-gradient(135deg, #1a1a2e, #c0392b); color:#fff;">🔥 The Analogy — Broken Glass</div>
+        <div class="script-line" style="background:#fff8f0; border-left-color:#c0392b; font-size:14px; line-height:1.9;">
+          "Can I share something with you?"
+
+          <br><br>
+
+          "Imagine you're standing at one end of a 10-foot stretch of broken glass — barefoot. Would you walk across it? Probably not, right? Of course not."
+
+          <br><br>
+
+          "But now imagine your child is in a burning building on the other side of that glass. Would you walk across it then?"
+
+          <br><br>
+
+          "Every single person says yes. Because when what's on the other side is important enough — fear doesn't go away, you just stop letting it make the decision."
+
+          <br><br>
+
+          "Right now, <strong><span class="auto-obj-goal" style="color:#c0392b;">their goal</span></strong> is on the other side of that glass."
+
+          <br><br>
+
+          "The only question is — is it important enough to you?"
+        </div>
+        <textarea class="answer-field" id="obj_fear_analogy" placeholder="Their response..." rows="2"></textarea>
+      </div>
+
+      <div class="obj-jump-row" style="background:#fff0f0; border:1.5px solid #c0392b;">
+        <div style="font-size:13px; font-weight:800; color:#c0392b; margin-bottom:8px;">Fear addressed — time to close. 🎯</div>
+        <div style="font-size:12px; color:#555;">"So where would you like to go from here?"</div>
+      </div>
+    </div>
+
+    <!-- OBJECTION NOTES -->
+    <div style="margin-top:24px;">
+      <div class="section-title" style="font-size:13px;">📋 Objection Summary Notes</div>
+      <div class="q-row">
+        <div class="q-label">Primary objection(s) raised:</div>
+        <textarea class="answer-field" id="obj_primary" placeholder="e.g. Money → Spouse → Fear" rows="2"></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">How it was resolved:</div>
+        <textarea class="answer-field" id="obj_resolved" placeholder="Notes on how objections were handled..." rows="2"></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">Outcome:</div>
+        <select class="answer-field" id="obj_outcome" style="height:42px;">
+          <option value="">— Select outcome —</option>
+          <option>✅ Closed — Full Pay</option>
+          <option>✅ Closed — Payment Plan</option>
+          <option>🔶 Deposit Taken — Follow Up</option>
+          <option>📞 3-Way Call Booked — Spouse</option>
+          <option>🔁 Follow Up Scheduled</option>
+          <option>❌ Not Closed</option>
+        </select>
+      </div>
+    </div>
+
+  </div><!-- end objection section -->
+
   <!-- ===================================================== -->
   <!-- ================ LIVE SUMMARY PAGE ================== -->
   <!-- ===================================================== -->
@@ -974,6 +1406,23 @@ h1, h2, h3, h4 { line-height: 1.3; }
 
 
 
+
+      <!-- OBJECTIONS -->
+      <div class="sum-section sh-obj">
+        <div class="sum-section-header" style="background:#1a1a2e; color:#fff;">
+          <div class="sum-badge" style="background:#c0392b; color:#fff; font-size:9px;">OBJ</div>
+          OBJECTIONS — What came up & how it was handled
+        </div>
+        <div class="sum-items">
+          <div class="sum-item"><span class="sum-item-label">Primary objection(s):</span><span class="sum-item-answer" id="sum_obj_primary">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">How resolved:</span><span class="sum-item-answer" id="sum_obj_resolved">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Outcome:</span><span class="sum-item-answer" id="sum_obj_outcome">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Money notes:</span><span class="sum-item-answer" id="sum_obj_money">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Spouse notes:</span><span class="sum-item-answer" id="sum_obj_spouse">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Fear notes:</span><span class="sum-item-answer" id="sum_obj_fear">—</span></div>
+        </div>
+      </div>
+
     </div>
 
     <!-- SUBMIT -->
@@ -1026,6 +1475,12 @@ const fieldMap = [
   ['goal_how_came_up',  'sum_goal_how_came_up'],
   ['goal_why_important','sum_goal_why_important'],
   ['issue_recap',      'sum_issue_recap_full'],
+  ['obj_primary',      'sum_obj_primary'],
+  ['obj_resolved',     'sum_obj_resolved'],
+  ['obj_outcome',      'sum_obj_outcome'],
+  ['obj_money_p1',     'sum_obj_money'],
+  ['obj_spouse_a_p1a', 'sum_obj_spouse'],
+  ['obj_fear_p1',      'sum_obj_fear'],
 ];
 
 // ── DEBOUNCE helper
@@ -1204,6 +1659,7 @@ var debouncedAutoFill = debounce(function() {
   autoPopulateRecapFeeling();
   autoPopulateRecapTried();
   autoPopulateRecapNeed();
+  autoPopulateObjSpans();
 }, 400);
 
 // ── Mark auto-populated fields as manually edited when user types in them
@@ -1284,6 +1740,27 @@ function submitToSheets() {
     p_typical_results: gv('p_typical_results'),
     goal_how_came_up:  gv('goal_how_came_up'),
     goal_why_important:gv('goal_why_important'),
+    obj_primary:       gv('obj_primary'),
+    obj_resolved:      gv('obj_resolved'),
+    obj_outcome:       gv('obj_outcome'),
+    obj_money_p1:      gv('obj_money_p1'),
+    obj_money_p2:      gv('obj_money_p2'),
+    obj_money_p3:      gv('obj_money_p3'),
+    obj_money_p4:      gv('obj_money_p4'),
+    obj_money_p5:      gv('obj_money_p5'),
+    obj_thinkabt_p1a:  gv('obj_thinkabt_p1a'),
+    obj_thinkabt_p1b:  gv('obj_thinkabt_p1b'),
+    obj_thinkabt_p2:   gv('obj_thinkabt_p2'),
+    obj_spouse_a_p1a:  gv('obj_spouse_a_p1a'),
+    obj_spouse_a_p1b:  gv('obj_spouse_a_p1b'),
+    obj_spouse_b_p2a:  gv('obj_spouse_b_p2a'),
+    obj_spouse_b_p2b:  gv('obj_spouse_b_p2b'),
+    obj_spouse_c_p3a:  gv('obj_spouse_c_p3a'),
+    obj_spouse_c_p3b:  gv('obj_spouse_c_p3b'),
+    obj_fear_p1:       gv('obj_fear_p1'),
+    obj_fear_p2a:      gv('obj_fear_p2a'),
+    obj_fear_p2b:      gv('obj_fear_p2b'),
+    obj_fear_analogy:  gv('obj_fear_analogy'),
   };
 
   // Build a query string and use an image tag for reliable no-cors submission
@@ -1300,6 +1777,83 @@ function submitToSheets() {
   };
   img.src = SCRIPT_URL + '?' + params;
 }
+
+// ══════════════════════════════════════
+// OBJECTION HANDLING NAVIGATION
+// ══════════════════════════════════════
+
+function showObj(track) {
+  // Hide all tracks
+  document.querySelectorAll('.obj-track').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  // Hide main selector
+  document.getElementById('obj-main-selector').style.display = 'none';
+  // Show selected track
+  var el = document.getElementById('obj-' + track);
+  if (el) {
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function backToMenu() {
+  // Hide all tracks
+  document.querySelectorAll('.obj-track').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  // Show main selector
+  document.getElementById('obj-main-selector').style.display = 'block';
+  document.getElementById('obj-main-selector').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showSpouseFlow(flow) {
+  // Hide all spouse flows
+  document.querySelectorAll('.spouse-flow').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  // Hide flow selector
+  var sel = document.getElementById('spouse-flow-selector');
+  if (sel) sel.style.display = 'none';
+  // Show selected flow
+  var el = document.getElementById('spouse-flow-' + flow);
+  if (el) {
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function backToSpouseMenu() {
+  // Hide all spouse flows
+  document.querySelectorAll('.spouse-flow').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  // Show flow selector
+  var sel = document.getElementById('spouse-flow-selector');
+  if (sel) sel.style.display = 'block';
+}
+
+// Auto-populate objection inline spans
+function autoPopulateObjSpans() {
+  var goal = val('goal_6to12') || val('appWhatTheyWant') || '___';
+  var issue = val('issue_recap') || val('p_bigchallenge') || '___';
+  var howlong = val('t_howlong') || '___';
+  var spouse = val('spouse_supportive') ? val('spouse_supportive').split(' ')[0] : 'partner/spouse';
+
+  document.querySelectorAll('.auto-obj-goal').forEach(function(el) {
+    el.textContent = goal;
+  });
+  document.querySelectorAll('.auto-obj-issue').forEach(function(el) {
+    el.textContent = issue;
+  });
+  document.querySelectorAll('.auto-obj-howlong').forEach(function(el) {
+    el.textContent = howlong;
+  });
+  document.querySelectorAll('.auto-obj-spouse').forEach(function(el) {
+    el.textContent = spouse;
+  });
+}
+
 </script>
 
 </body>
