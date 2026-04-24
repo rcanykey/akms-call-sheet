@@ -551,8 +551,9 @@ h1, h2, h3, h4 { line-height: 1.3; }
     </div>
 
     <div class="q-row">
-      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Did you think that [your background / what you tried] would enable you to play By Ear and in Any Key?</div>
-      <textarea class="answer-field p-field" id="p_thought_itd_work" placeholder="Answer..." rows="2"></textarea>
+      <div class="q-label"><input type="checkbox"> <span class="tag tag-p">P</span> Did you think that <input type="text" class="answer-field" id="p_background_ref" placeholder="their background / what they tried..." style="display:inline-block; width:280px; margin:0 4px; vertical-align:middle;"> would enable you to play By Ear and in Any Key?</div>
+      <div style="font-size:12px; color:#888; margin: 4px 0 6px 26px; font-style:italic;">↑ Auto-fills from musical background (Page 2) — edit freely</div>
+      <textarea class="answer-field p-field" id="p_thought_itd_work" placeholder="Their answer..." rows="2"></textarea>
     </div>
 
     <div class="script-line">"Ok… so over the last 12 months you figured out <strong><span id="auto_12months_2" style="color:#c0392b;">___</span></strong> songs. Is that right?"</div>
@@ -872,7 +873,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
           <div class="sum-item"><span class="sum-item-label">Biggest challenge?</span><span class="sum-item-answer" id="sum_p_bigchallenge">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Results last 12 months?</span><span class="sum-item-answer" id="sum_p_12months">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Embellishments they can add?</span><span class="sum-item-answer" id="sum_q_embellish">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">Thought background would work?</span><span class="sum-item-answer" id="sum_p_thought_itd_work">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Thought background / tried would work?</span><span class="sum-item-answer" id="sum_p_thought_itd_work">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Typical results — past few years?</span><span class="sum-item-answer" id="sum_p_typical_results">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #1 — Impact on them?</span><span class="sum-item-answer" id="sum_p_emotion1">—</span></div>
           <div class="sum-item"><span class="sum-item-label">EMOTION #2 — Tough spot emotionally?</span><span class="sum-item-answer" id="sum_p_emotion2">—</span></div>
@@ -904,7 +905,7 @@ h1, h2, h3, h4 { line-height: 1.3; }
         </div>
         <div class="sum-items">
           <div class="sum-item"><span class="sum-item-label">What shifted recently?</span><span class="sum-item-answer" id="sum_n_shifted">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">Why is it important?</span><span class="sum-item-answer" id="sum_n_important">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Why is it important?</span><span class="sum-item-answer" id="sum_n_why_important_old">—</span></div>
           <div class="sum-item"><span class="sum-item-label">6–12 month goal?</span><span class="sum-item-answer" id="sum_goal_6to12">—</span></div>
           <div class="sum-item"><span class="sum-item-label">How did they come up with that goal?</span><span class="sum-item-answer" id="sum_goal_how_came_up">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Why is it important to them?</span><span class="sum-item-answer" id="sum_goal_why_important">—</span></div>
@@ -918,9 +919,9 @@ h1, h2, h3, h4 { line-height: 1.3; }
           ISSUE — Core problem statement
         </div>
         <div class="sum-items">
-          <div class="sum-item"><span class="sum-item-label">Main issue is…</span><span class="sum-item-answer" id="sum_issue_main">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Main issue is…</span><span class="sum-item-answer" id="sum_issue_recap">—</span></div>
           <div class="sum-item"><span class="sum-item-label">Also stated…</span><span class="sum-item-answer" id="sum_issue_aside">—</span></div>
-          <div class="sum-item"><span class="sum-item-label">Recap issue…</span><span class="sum-item-answer" id="sum_issue_recap">—</span></div>
+          <div class="sum-item"><span class="sum-item-label">Full recap…</span><span class="sum-item-answer" id="sum_issue_recap_full">—</span></div>
         </div>
       </div>
 
@@ -1024,6 +1025,7 @@ const fieldMap = [
   ['p_typical_results', 'sum_p_typical_results'],
   ['goal_how_came_up',  'sum_goal_how_came_up'],
   ['goal_why_important','sum_goal_why_important'],
+  ['issue_recap',      'sum_issue_recap_full'],
 ];
 
 // ── DEBOUNCE helper
@@ -1075,6 +1077,12 @@ function autoPopulateInline() {
   var g10k = val('goal_6to12') || val('appWhatTheyWant');
   var g10kEl = document.getElementById('auto_10k_goal');
   if (g10kEl) g10kEl.textContent = g10k || 'XYZ GOAL';
+  // Background ref field — auto-fills from t_background on Page 2
+  var bgRef = document.getElementById('p_background_ref');
+  if (bgRef && !bgRef.dataset.manualEdit) {
+    var bgVal = val('t_background');
+    if (bgVal) bgRef.value = bgVal;
+  }
 }
 
 // ── Auto-populate MAIN ISSUE → issue_recap
@@ -1199,7 +1207,7 @@ var debouncedAutoFill = debounce(function() {
 }, 400);
 
 // ── Mark auto-populated fields as manually edited when user types in them
-['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need'].forEach(function(id) {
+['issue_recap','goal_keepingfrom','emotion_causing','recap_feeling','recap_tried','recap_need','p_background_ref'].forEach(function(id) {
   var el = document.getElementById(id);
   if (el) el.addEventListener('input', function() { this.dataset.manualEdit = 'true'; });
 });
